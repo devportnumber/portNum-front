@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { lazy } from 'react'
+import { Route, Routes, Router, BrowserRouter } from 'react-router-dom'
+import styled from 'styled-components'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+const LazyHome = lazy(() => import('../src/pages/Home'))
+const LazyAbout = lazy(() => import('../src/pages/About'))
+const LazyStore = lazy(() => import('../src/pages/Store'))
+
+const Container = styled.div`
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+`
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LazyHome />} />
+          <Route path="/event/:storeId" element={<LazyStore />} />
+          {/* <Route path="/about" element={<LazyAbout />} /> */}
+        </Routes>
+      </BrowserRouter>
+    </>
+  )
 }
 
-export default App;
+export default App
