@@ -18,6 +18,12 @@ import { Row, Col } from 'react-bootstrap'
 import { AiOutlineSmile, AiOutlineArrowRight } from 'react-icons/ai'
 
 // Icons
+import BakeryIcon from '../assets/icons/maps/point_22_bakery.svg'
+import FashionIcon from '../assets/icons/maps/point_22_fashion.svg'
+import BarIcon from '../assets/icons/maps/point_22_bar.svg'
+import CafeIcon from '../assets/icons/maps/point_22_cafe.svg'
+import GoodsIcon from '../assets/icons/maps/point_22_goods.svg'
+import RestaurantIcon from '../assets/icons/maps/point_22_restaurant.svg'
 import Logo from '../assets/icons/logo/paulseee_logo.png'
 
 // Components
@@ -43,104 +49,17 @@ function Home() {
   const [storeIcon, setStoreIcon] = useState('')
   const [storeList, setStoreList] = useState()
 
-  //더미데이터
-  const storeDummy = {
-    id: '2',
-    category: 'cafe',
-    dates: '24.04.29 ~ 42.03.29',
-    time: '목요일 12:00 ~ 6:00',
-    name: 'Cafe Name 1',
-    longitude: '37.3695704',
-    latitude: '127.105399',
-    address: '서울 강남구 강남대로',
-    address_detail: '1-1',
-    neighborhood: '서울 강남구',
-    keywords: ['cafe', 'coffee'],
-    description: 'Cafe Description 1',
-    images: [
-      'https://images.unsplash.com/photo-1481437156560-3205f6a55735?q=80&w=2395&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'https://images.unsplash.com/photo-1562280963-8a5475740a10?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'https://images.unsplash.com/photo-1485518882345-15568b007407?q=80&w=2542&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    ],
-    regdt: '2024-03-17',
-  }
-  const storeListDummy = [
-    {
-      id: '1',
-      category: 'fashion',
-      dates: '24.04.29 ~ 42.03.29',
-      time: '목요일 12:00 ~ 6:00',
-      name: 'Shop Name 1',
-      longitude: '37.3595704',
-      latitude: '127.105399',
-      address: '서울 강남구 강남대로',
-      address_detail: '1-1',
-      neighborhood: '서울 강남구',
-      keywords: ['shop', 'retail'],
-      description: 'Shop Description 1',
-      images: [
-        'https://images.unsplash.com/photo-1481437156560-3205f6a55735?q=80&w=2395&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1562280963-8a5475740a10?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1485518882345-15568b007407?q=80&w=2542&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      ],
-      regdt: '2024-03-17',
-    },
-    {
-      id: '2',
-      category: 'bar',
-      dates: '24.04.29 ~ 42.03.29',
-      time: '목요일 12:00 ~ 6:00',
-      name: 'Cafe Name 1',
-      longitude: '37.3695704',
-      latitude: '127.105399',
-      address: '서울 강남구 강남대로',
-      address_detail: '1-1',
-      neighborhood: '서울 강남구',
-      keywords: ['cafe', 'coffee'],
-      description: 'Cafe Description 1',
-      images: [
-        'https://images.unsplash.com/photo-1481437156560-3205f6a55735?q=80&w=2395&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1562280963-8a5475740a10?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1485518882345-15568b007407?q=80&w=2542&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      ],
-      regdt: '2024-03-17',
-    },
-    {
-      id: '3',
-      category: 'goods',
-      dates: '24.04.29 ~ 42.03.29',
-      time: '목요일 12:00 ~ 6:00',
-      name: 'Cafe Name33',
-      longitude: '37.3595704',
-      latitude: '127.115399',
-      address: '서울 강남구 강남대로',
-      address_detail: '1-1',
-      neighborhood: '서울 강남구',
-      keywords: ['cafe', 'coffee'],
-      description: 'Cafe Description 1',
-      images: [
-        'https://images.unsplash.com/photo-1481437156560-3205f6a55735?q=80&w=2395&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1562280963-8a5475740a10?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1485518882345-15568b007407?q=80&w=2542&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      ],
-      regdt: '2024-03-17',
-    },
-  ]
-
   //모달 공유
   const queryParameters = new URLSearchParams(window.location.search)
   const storeIdParam = queryParameters.get('id')
   useEffect(() => {
-    //localhost:3000/?id=9
-    http: if (storeIdParam) {
+    if (storeIdParam) {
       setStoreId(storeIdParam)
     }
   }, [storeIdParam])
 
   useEffect(() => {
-    //localhost:3000/?id=9
     if (storeId) {
-      console.log('storeId-' + storeId)
       handleShow(storeId)
     }
   }, [storeId])
@@ -148,21 +67,20 @@ function Home() {
   // 가게 목록 불러오기 Fetch All Stores Info API
   useEffect(() => {
     ReactGA.initialize('G-P4SP6NH4KM')
-    fetchData('https://jsonplaceholder.typicode.com/todos', 'GET', null, null)
+    fetchData('http://43.202.3.23:8080/store/list', 'GET', null, null)
   }, [])
 
   // 가게 목록 저장 Save StoreInfoAPI Data
   useEffect(() => {
-    // console.log('data-' + JSON.stringify(data))
-    if (data) setStoreList(storeListDummy)
+    if (data) {
+      setStoreList(data)
+    }
   }, [data])
 
   // 가게 정보 불러오기 Fetch Store Info API
   useEffect(() => {
-    console.log('getStoreInfoData-' + JSON.stringify(getStoreInfoData))
     if (getStoreInfoData) {
-      // setStoreInfo(getStoreInfoData)
-      setStoreInfo(storeDummy)
+      setStoreInfo(getStoreInfoData)
       setShow(true)
     }
   }, [getStoreInfoData])
@@ -179,7 +97,7 @@ function Home() {
     })
 
     getStoreInfo(
-      `https://jsonplaceholder.typicode.com/todos/${id}`, //${id} + id,
+      `http://43.202.3.23:8080/store?storeId=${id}`, //${id} + id,
       'GET',
       null,
       null,
@@ -197,7 +115,6 @@ function Home() {
     //아이콘
     const getCustomMarkerIcon = (storeName, category) => {
       let categoryIcon
-
       switch (category) {
         case 'bar':
           categoryIcon =
@@ -229,7 +146,7 @@ function Home() {
       }
       setStoreIcon(categoryIcon)
       return {
-        content: `<img src="${categoryIcon}" /><span class="m-1 badge rounded-pill bg-light text-dark me-1 border border-dark">${storeName}</span>`,
+        content: `<img src="${categoryIcon}" /><span class="m-1 badge rounded-pill bg-light text-dark me-1 border border-dark ">${storeName}</span>`,
       }
     }
 
@@ -245,8 +162,7 @@ function Home() {
               new navermaps.LatLng(store.longitude, store.latitude)
             }
             onClick={() => {
-              console.log('Marker clicked:', store.id)
-              handleShow(store.id, store.name)
+              handleShow(store.storeId, store.name)
             }}
             icon={getCustomMarkerIcon(store.name, store.category)}
           />
@@ -263,13 +179,21 @@ function Home() {
             <Row className="vw-100 px-3">
               <Col className="me-1">
                 <LinkButton
-                  className="p-1 py-2 border border-dark"
+                  className="p-1 pb-2 border border-dark"
                   style={{ borderRadius: '30px' }}
                 >
                   <Col className="px-0" xs={3}>
                     <LogoImg src={Logo} />
+                    {/* <LogoImg src={BakeryIcon} /> */}
+                    {/* <LogoImg src={FashionIcon} /> */}
                   </Col>
-                  <Col className="px-0">
+                  <Col
+                    className="px-0 d-flex justify-content-center align-items-center"
+                    style={{ fontSize: '12px' }}
+                    onClick={() =>
+                      redirectUrl(' https://blog.naver.com/paulssi')
+                    }
+                  >
                     <strong>폴씨 블로그</strong>
                   </Col>
                   <Col className="" xs={3}>
@@ -279,14 +203,15 @@ function Home() {
               </Col>
               <Col className="ms-1">
                 <LinkButton
-                  className="p-1 py-2 border border-dark"
+                  className="p-1 border border-dark"
                   style={{ borderRadius: '30px' }}
                 >
                   <Col className="px-0" xs={3}>
                     <LogoImg src={Logo} />
                   </Col>
                   <Col
-                    className="px-0"
+                    className="px-0 d-flex justify-content-center align-items-center"
+                    style={{ fontSize: '12px' }}
                     onClick={() =>
                       redirectUrl('https://www.instagram.com/paulseee')
                     }

@@ -11,6 +11,14 @@ import { useAxios } from '../hooks/useAxios'
 import ControlledCarousel from '../components/Carousel'
 import EventMap from '../components/EventMap'
 
+// Icons
+import BakeryIcon from '../assets/icons/maps/point_22_bakery.svg'
+import FashionIcon from '../assets/icons/maps/point_22_fashion.svg'
+import BarIcon from '../assets/icons/maps/point_22_bar.svg'
+import CafeIcon from '../assets/icons/maps/point_22_cafe.svg'
+import GoodsIcon from '../assets/icons/maps/point_22_goods.svg'
+import RestaurantIcon from '../assets/icons/maps/point_22_restaurant.svg'
+
 //bootstrap
 import { Row, Col } from 'react-bootstrap'
 import {
@@ -19,97 +27,127 @@ import {
   AiFillCopy,
 } from 'react-icons/ai'
 import { PiMapPinDuotone } from 'react-icons/pi'
+import { MdKeyboardArrowLeft } from 'react-icons/md'
 
 import styled from 'styled-components'
 
+const imageSlideStyle = `
+div.scroll-container {
+  background-color: #333;
+  overflow: auto;
+  white-space: nowrap;
+  padding: 10px;
+}
+
+div.scroll-container img {
+  padding: 10px;
+}
+`
+
 function Store() {
-  //더미데이터
-  const storeDummy = {
-    id: '2',
-    category: 'cafe',
-    dates: '24.04.29 ~ 42.03.29',
-    time: '목요일 12:00 ~ 6:00',
-    name: 'Cafe Name 1',
-    longitude: '37.3695704',
-    latitude: '127.105399',
-    address: '서울 강남구 강남대로',
-    address_detail: '1-1',
-    neighborhood: '서울 강남구',
-    keywords: ['cafe', 'coffee'],
-    description: 'Cafe Description 1',
-    images: [
-      'https://images.unsplash.com/photo-1481437156560-3205f6a55735?q=80&w=2395&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'https://images.unsplash.com/photo-1562280963-8a5475740a10?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'https://images.unsplash.com/photo-1485518882345-15568b007407?q=80&w=2542&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    ],
-    regdt: '2024-03-17',
-  }
-  const { storeId } = useParams()
   const { fetchData, loading, data: storeDetail, error } = useAxios()
 
   //needed data
-  const [imageList, setImageList] = useState()
-  const [coordinates, setCoordinates] = useState()
   const [storeInfo, setStoreInfo] = useState()
+  const [storeId, setStoreId] = useState('')
   const [categoryIcon, setCategoryIcon] = useState('')
+
   const location = useLocation()
+  const { storeIdParam } = useParams()
 
   useEffect(() => {
-    setStoreInfo(storeDummy)
-    //state 아이콘
-    const { storeIcon } = location.state
-    if (storeIcon) {
-      console.log(storeIcon)
-
-      setCategoryIcon(storeIcon)
+    //state 아이콘, 상세 정보
+    if (location.state) {
+      const { storeIcon } = location?.state
+      const { storeInfoState } = location?.state
+      if (storeInfoState) {
+        setStoreInfo(storeInfoState)
+      }
+      if (storeIcon) {
+        setCategoryIcon(storeIcon)
+      }
+    } else {
+      if (storeIdParam) {
+        setStoreId(storeIdParam)
+      }
     }
   }, [])
 
   useEffect(() => {
-    // if (storeId) {
-    //   fetchData({
-    //     url: `https://jsonplaceholder.typicode.com/todos/${storeId}`,
-    //     method: 'GET',
-    //   })
-    // }
+    if (storeId) {
+      fetchData(
+        `http://43.202.3.23:8080/store?storeId=${storeId}`,
+        'GET',
+        null,
+        null,
+      )
+    }
   }, [storeId])
 
   useEffect(() => {
-    // if (storeDetail) {
-    //setStoreInfo(storeDetail)
-    // let categoryIcon
-    //   switch (category) {
-    //     case 'bar':
-    //       categoryIcon =
-    //         '/static/media/point_22_bar.9075eb533419c775a719b0bba0cae22b.svg'
-    //       break
-    //     case 'bakery':
-    //       categoryIcon =
-    //         '/static/media/point_22_bakery.a059d87647b55d97dfdec611f01807a0.svg'
-    //       break
-    //     case 'cafe':
-    //       categoryIcon =
-    //         '/static/media/point_22_cafe.6a9cf6367a1a18793d10f7675a2dd6b1.svg'
-    //       break
-    //     case 'fashion':
-    //       categoryIcon =
-    //         '/static/media/point_22_fashion.a526b493bbdaff38a71dd4219bf4cea3.svg'
-    //       break
-    //     case 'goods':
-    //       categoryIcon =
-    //         '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
-    //       break
-    //     case 'restaurant':
-    //       categoryIcon =
-    //         '/static/media/point_22_restaurant.5c427a0dc4858890f49698fec4732628.svg'
-    //       break
-    //     default:
-    //       categoryIcon =
-    //         '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
-    //   }
-    //  setCategoryIcon(categoryIcon)
-    //setCategoryIcon(storeDetail)
-    // }
+    if (storeDetail) {
+      setStoreInfo(storeDetail)
+      let categoryIcon
+      switch (storeDetail.category) {
+        case 'bar':
+          categoryIcon =
+            '/static/media/point_22_bar.9075eb533419c775a719b0bba0cae22b.svg'
+          break
+        case 'bakery':
+          categoryIcon =
+            '/static/media/point_22_bakery.a059d87647b55d97dfdec611f01807a0.svg'
+          break
+        case 'cafe':
+          categoryIcon =
+            '/static/media/point_22_cafe.6a9cf6367a1a18793d10f7675a2dd6b1.svg'
+          break
+        case 'fashion':
+          categoryIcon =
+            '/static/media/point_22_fashion.a526b493bbdaff38a71dd4219bf4cea3.svg'
+          break
+        case 'goods':
+          categoryIcon =
+            '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
+          break
+        case 'restaurant':
+          categoryIcon =
+            '/static/media/point_22_restaurant.5c427a0dc4858890f49698fec4732628.svg'
+          break
+        default:
+          categoryIcon =
+            '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
+      }
+      // switch (storeDetail.category) {
+      //   case 'bar':
+      //     categoryIcon =
+      //       '/static/media/point_22_bar.9075eb533419c775a719b0bba0cae22b.svg'
+      //     break
+      //   case 'bakery':
+      //     categoryIcon =
+      //       '/static/media/point_22_bakery.a059d87647b55d97dfdec611f01807a0.svg'
+      //     break
+      //   case 'cafe':
+      //     categoryIcon =
+      //       '/static/media/point_22_cafe.6a9cf6367a1a18793d10f7675a2dd6b1.svg'
+      //     break
+      //   case 'fashion':
+      //     categoryIcon =
+      //       '/static/media/point_22_fashion.a526b493bbdaff38a71dd4219bf4cea3.svg'
+      //     break
+      //   case 'goods':
+      //     categoryIcon =
+      //       '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
+      //     break
+      //   case 'restaurant':
+      //     categoryIcon =
+      //       '/static/media/point_22_restaurant.5c427a0dc4858890f49698fec4732628.svg'
+      //     break
+      //   default:
+      //     categoryIcon =
+      //       '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
+      // }
+      setCategoryIcon(categoryIcon)
+    }
   }, [storeDetail])
 
   //복사 기능
@@ -141,60 +179,72 @@ function Store() {
   return (
     // {loading && <div>Loading...</div>}
     // {error && <div>Error: {error.message}</div>}
-    storeInfo && (
-      <Container>
-        <Content>
-          <CarouselRow>
-            <ControlledCarousel
-              imageList={storeInfo.images}
-              storeInfo={storeInfo}
-            />
-          </CarouselRow>
-          <InfoRow className="px-3 pt-3 pb-0">
-            <Row className="mb-2 pb-2 border-bottom">
-              <Row className="pb-1">
-                <Col xs={1} className="ps-0">
-                  <AiTwotoneCalendar />
-                </Col>
-                <Col className="ps-0">{storeInfo.dates}</Col>
-              </Row>
-              <Row className="pb-3">
-                <Col xs={1} className="ps-0">
-                  <AiTwotoneClockCircle />
-                </Col>
-                <Col className="ps-0">{storeInfo.time}</Col>
-              </Row>
-              <Row>{storeInfo.description}</Row>
-            </Row>
-            <Row className="mt-3">
-              <Col xs={1} className="ps-0">
-                <PiMapPinDuotone />
-              </Col>
-              <Col className="ps-0">
-                {storeInfo.address + storeInfo.address_detail} &nbsp;
-                <AiFillCopy
-                  onClick={() =>
-                    copyAddress('addresssss', 'storeId', 'storeName')
-                  }
-                />
-              </Col>
-            </Row>
-          </InfoRow>
-          {categoryIcon && (
-            <MapRow className="pb-4">
-              <EventMap
-                latitude={storeInfo.latitude}
-                longitude={storeInfo.longitude}
-                categoryIcon={categoryIcon}
+    <>
+      <style>{imageSlideStyle}</style>
+      {storeInfo && (
+        <Container>
+          <Content>
+            <IconContainer>
+              <StyledPrevIcon
+                size="2em"
+                color="white"
+                border="black"
+                onClick={() => window.history.back()}
               />
-            </MapRow>
-          )}
-          {/* <Row >
-          SUB CONTENT
-        </Row> */}
-        </Content>
-      </Container>
-    )
+            </IconContainer>
+            <CarouselRow>
+              <ControlledCarousel
+                imageList={storeInfo.images}
+                storeInfo={storeInfo}
+                storeId={storeInfo.id}
+              />
+            </CarouselRow>
+            <InfoRow className="px-3 pt-3 pb-0">
+              <Row className="mb-2 pb-2 border-bottom">
+                <Row className="pb-1">
+                  <Col xs={1} className="ps-0">
+                    <AiTwotoneCalendar />
+                  </Col>
+                  <Col className="ps-0">{storeInfo.dates}</Col>
+                </Row>
+                <Row className="pb-3">
+                  <Col xs={1} className="ps-0">
+                    <AiTwotoneClockCircle />
+                  </Col>
+                  <Col className="ps-0">{storeInfo.time}</Col>
+                </Row>
+                <Row>{storeInfo.description}</Row>
+              </Row>
+              <Row className="mt-3">
+                <Col xs={1} className="ps-0">
+                  <PiMapPinDuotone />
+                </Col>
+                <Col className="ps-0">
+                  {storeInfo.address + storeInfo.address_detail} &nbsp;
+                  <AiFillCopy
+                    onClick={() =>
+                      copyAddress(
+                        `${storeInfo.address + storeInfo.address_detail}`,
+                        `${storeInfo.name}`,
+                      )
+                    }
+                  />
+                </Col>
+              </Row>
+            </InfoRow>
+            {categoryIcon && (
+              <MapRow className="pb-4">
+                <EventMap
+                  longitude={storeInfo.longitude}
+                  latitude={storeInfo.latitude}
+                  categoryIcon={categoryIcon}
+                />
+              </MapRow>
+            )}
+          </Content>
+        </Container>
+      )}
+    </>
   )
 }
 
@@ -232,4 +282,13 @@ const Content = styled.div`
   align-items: center;
   flex-direction: column;
   text-align: center;
+`
+const IconContainer = styled.div`
+  z-index: 10;
+`
+
+const StyledPrevIcon = styled(MdKeyboardArrowLeft)`
+  position: absolute;
+  top: 0;
+  left: 0;
 `

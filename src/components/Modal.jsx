@@ -15,8 +15,6 @@ import {
 } from 'react-icons/ai'
 
 function StoreModal({ show, setShow, storeInfo, storeIcon }) {
-  console.log('storeInfo-' + JSON.stringify(storeInfo))
-  // storeInfo
   const handleClose = () => setShow(false)
   const navigate = useNavigate()
 
@@ -50,7 +48,9 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
       label: 'modal click',
     })
     startTransition(() => {
-      navigate(`/event/${storeId}`, { state: { storeIcon: storeIcon } })
+      navigate(`/paulseee/${storeId}`, {
+        state: { storeIcon: storeIcon, storeInfoState: storeInfo },
+      })
     })
   }
 
@@ -67,7 +67,7 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
   }
 
   //share link
-  const shareStoreLink = (storeId, storeName, event) => {
+  const shareModalLink = (storeId, storeName, event) => {
     event.stopPropagation()
 
     ReactGA.event({
@@ -78,7 +78,8 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
       action: 'Click',
       label: 'share store link click',
     })
-    const linkUrl = `http://tryingtotestgoogleanalytics.com:3000/event/${storeId}`
+    // const linkUrl = `https://portnumber.site/paulseee?id=${storeId}`
+    const linkUrl = `${process.env.REACT_APP_BASE_URL}/paulseee?id=${storeId}`
     copyToClipboard(linkUrl)
   }
 
@@ -102,7 +103,7 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
                     {storeInfo.name}
                     <AiOutlineShareAlt
                       onClick={(event) =>
-                        shareStoreLink(storeInfo.id, storeInfo.name, event)
+                        shareModalLink(storeInfo.id, storeInfo.name, event)
                       }
                     />
                   </strong>
@@ -148,17 +149,3 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
 }
 
 export default StoreModal
-
-// mask-image: linear-gradient(
-//   to top,
-//   rgb(60, 60, 60) 0%,
-//   rgba(0, 0, 0, 0) 100%
-// );
-// -webkit-mask-image: linear-gradient(
-//   to bottom,
-//   rgb(60, 60, 60) 80%,
-//   rgba(0, 0, 0, 0) 100%
-// );
-
-// mask-image: linear-gradient(#000, black);
-// filter: grayscale(30%) brightness(90%);

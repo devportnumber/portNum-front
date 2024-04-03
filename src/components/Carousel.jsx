@@ -2,6 +2,18 @@ import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
+//store images
+import store1Img from '../assets/stores/1.png'
+import store2Img from '../assets/stores/2.png'
+import store3Img from '../assets/stores/3.png'
+import store4Img from '../assets/stores/4.png'
+import store5Img from '../assets/stores/5.png'
+import store6Img from '../assets/stores/6.png'
+import store7Img from '../assets/stores/7.png'
+import store8Img from '../assets/stores/8.png'
+import store9Img from '../assets/stores/9.png'
+import store10Img from '../assets/stores/10.png'
+
 // Bootstrap
 import Carousel from 'react-bootstrap/Carousel'
 import { AiOutlineShareAlt } from 'react-icons/ai'
@@ -9,7 +21,7 @@ import { AiOutlineShareAlt } from 'react-icons/ai'
 // Google Analytics
 import ReactGA from 'react-ga4'
 
-function ControlledCarousel({ imageList, storeInfo }) {
+function ControlledCarousel({ imageList, storeInfo, storeId }) {
   const carouselStyle = `
     .carousel-inner {
       position: absolute;
@@ -115,7 +127,7 @@ const StyledImage = styled.img`
   height: 100%;
   width: 100%;
   z-index: 1;
-  filter: grayscale(30%) brightness(70%);
+  filter: grayscale(30%) brightness(60%);
 `
 
 const StyledCarouselCaption = styled.div`
@@ -125,5 +137,5 @@ const StyledCarouselCaption = styled.div`
   bottom: 33%;
   position: absolute;
   color: #fff;
-  z-index: 10;
+  z-index: 7;
 `

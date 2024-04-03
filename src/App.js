@@ -1,5 +1,5 @@
 import React, { lazy } from 'react'
-import { Route, Routes, Router, BrowserRouter } from 'react-router-dom'
+import { Route, Routes, Navigate, BrowserRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -19,9 +19,10 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LazyHome />} />
-          <Route path="/event/:storeId" element={<LazyStore />} />
-          {/* <Route path="/about" element={<LazyAbout />} /> */}
+          <Route path="/" element={<Navigate to="/paulseee" replace />} />
+          <Route path="/paulseee" element={<LazyHome />} />
+          <Route path="/paulseee/:storeIdParam" element={<LazyStore />} />
+          <Route path="/*" element={<LazyHome />} />
         </Routes>
       </BrowserRouter>
     </>
