@@ -25,7 +25,7 @@ function EventMap({ latitude, longitude, categoryIcon }) {
     <StyledMapDiv>
       <NaverMap
         defaultCenter={new navermaps.LatLng(longitude, latitude)}
-        defaultZoom={13}
+        defaultZoom={15}
       >
         <Marker
           defaultPosition={new navermaps.LatLng(longitude, latitude)}

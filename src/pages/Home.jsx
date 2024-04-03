@@ -35,6 +35,79 @@ import { useAxios } from '../hooks/useAxios'
 import styled from 'styled-components'
 
 function Home() {
+  const dummyData = [
+    {
+      storeId: 1,
+      name: '기안84 개인전',
+      category: 'fashion',
+      longitude: '37.548654',
+      latitude: '127.051588',
+    },
+    {
+      storeId: 2,
+      name: '엄브로',
+      category: 'bakery',
+      longitude: '37.579772',
+      latitude: '127.048544',
+    },
+    {
+      storeId: 3,
+      name: '가나초콜릿하우스',
+      category: 'cafe',
+      longitude: '37.536602',
+      latitude: '127.044783',
+    },
+    {
+      storeId: 4,
+      name: '샤넬 조향 마스터클래스',
+      category: 'fashion',
+      longitude: '37.579686',
+      latitude: '127.048707',
+    },
+    {
+      storeId: 5,
+      name: '마뗑킴',
+      category: 'bakery',
+      longitude: '37.579208',
+      latitude: '127.047532',
+    },
+    {
+      storeId: 6,
+      name: '반클리프',
+      category: 'restaurant',
+      longitude: '37.560261',
+      latitude: '127.0303',
+    },
+    {
+      storeId: 7,
+      name: '폴씨네 뚝도상점',
+      category: 'goods',
+      longitude: '37.545874',
+      latitude: '127.103174',
+    },
+    {
+      storeId: 8,
+      name: '페넥',
+      category: 'bakery',
+      longitude: '37.579235',
+      latitude: '127.047194',
+    },
+    {
+      storeId: 9,
+      name: '열어봐 너의 민감함',
+      category: 'cafe',
+      longitude: '37.580833',
+      latitude: '127.050153',
+    },
+    {
+      storeId: 10,
+      name: '1𝑆𝑇 𝐷𝐼𝑁𝑇𝑂 𝑃𝑂𝑃-𝑈𝑃 <',
+      category: 'fashion',
+      longitude: '37.564735',
+      latitude: '127.033939',
+    },
+  ]
+
   const { fetchData, loading, data, error } = useAxios()
   const {
     fetchData: getStoreInfo,
@@ -73,6 +146,7 @@ function Home() {
   // 가게 목록 저장 Save StoreInfoAPI Data
   useEffect(() => {
     if (data) {
+      // setStoreList(dummyData)
       setStoreList(data)
     }
   }, [data])
@@ -81,12 +155,19 @@ function Home() {
   useEffect(() => {
     if (getStoreInfoData) {
       setStoreInfo(getStoreInfoData)
+      setStoreIcon(getCategoryIcon(getStoreInfoData.category))
       setShow(true)
     }
   }, [getStoreInfoData])
 
+  // useEffect(() => {
+  //   if (storeIcon) {
+  //     console.log('storeIcon changed-' + storeIcon)
+  //   }
+  // }, [storeIcon])
+
   // 모달 뛰우기 Show Store Modal
-  const handleShow = (id, name) => {
+  const handleShow = (id, name, category) => {
     ReactGA.event({
       name: name,
       id: id,
@@ -95,6 +176,7 @@ function Home() {
       action: 'Click',
       label: 'map marker click',
     })
+    // setStoreIcon(getCategoryIcon(category))
 
     getStoreInfo(
       `http://43.202.3.23:8080/store?storeId=${id}`, //${id} + id,
@@ -108,63 +190,70 @@ function Home() {
     window.location.href = urlLink
   }
 
+  const getCategoryIcon = (category) => {
+    let categoryIcon
+    switch (category) {
+      case 'bar':
+        categoryIcon =
+          '/static/media/point_22_bar.9075eb533419c775a719b0bba0cae22b.svg'
+        break
+      case 'bakery':
+        categoryIcon =
+          '/static/media/point_22_bakery.a059d87647b55d97dfdec611f01807a0.svg'
+        break
+      case 'cafe':
+        categoryIcon =
+          '/static/media/point_22_cafe.6a9cf6367a1a18793d10f7675a2dd6b1.svg'
+        break
+      case 'fashion':
+        categoryIcon =
+          '/static/media/point_22_fashion.a526b493bbdaff38a71dd4219bf4cea3.svg'
+        break
+      case 'goods':
+        categoryIcon =
+          '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
+        break
+      case 'restaurant':
+        categoryIcon =
+          '/static/media/point_22_restaurant.5c427a0dc4858890f49698fec4732628.svg'
+        break
+      default:
+        categoryIcon =
+          '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
+    }
+    return categoryIcon
+    // setStoreIcon(categoryIcon)
+  }
   // 위치 지도에 뛰우기 Render Naver Map
-  function MyMap({ storeList }) {
+  function MyMap({ storeList, setStoreIcon }) {
     const navermaps = useNavermaps()
 
     //아이콘
-    const getCustomMarkerIcon = (storeName, category) => {
-      let categoryIcon
-      switch (category) {
-        case 'bar':
-          categoryIcon =
-            '/static/media/point_22_bar.9075eb533419c775a719b0bba0cae22b.svg'
-          break
-        case 'bakery':
-          categoryIcon =
-            '/static/media/point_22_bakery.a059d87647b55d97dfdec611f01807a0.svg'
-          break
-        case 'cafe':
-          categoryIcon =
-            '/static/media/point_22_cafe.6a9cf6367a1a18793d10f7675a2dd6b1.svg'
-          break
-        case 'fashion':
-          categoryIcon =
-            '/static/media/point_22_fashion.a526b493bbdaff38a71dd4219bf4cea3.svg'
-          break
-        case 'goods':
-          categoryIcon =
-            '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
-          break
-        case 'restaurant':
-          categoryIcon =
-            '/static/media/point_22_restaurant.5c427a0dc4858890f49698fec4732628.svg'
-          break
-        default:
-          categoryIcon =
-            '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
-      }
-      setStoreIcon(categoryIcon)
+    const getCustomMarkerIcon = (storeName, category, setStoreIcon) => {
+      // setStoreIcon(getCategoryIcon(category))
       return {
-        content: `<img src="${categoryIcon}" /><span class="m-1 badge rounded-pill bg-light text-dark me-1 border border-dark ">${storeName}</span>`,
+        content: `<img src="${getCategoryIcon(
+          category,
+        )}" /><span class="m-1 badge rounded-pill bg-light text-dark me-1 border border-dark ">${storeName}</span>`,
       }
     }
 
     return (
       <NaverMap
-        defaultCenter={new navermaps.LatLng(37.3595704, 127.105399)}
-        defaultZoom={13}
+        defaultCenter={new navermaps.LatLng(37.54183, 127.0563)}
+        defaultZoom={14}
       >
         {storeList?.map((store, index) => (
           <Marker
             key={index}
             defaultPosition={
               new navermaps.LatLng(store.longitude, store.latitude)
+              // new navermaps.LatLng(store.longitude, store.latitude)
             }
             onClick={() => {
-              handleShow(store.storeId, store.name)
+              handleShow(store.storeId, store.name, store.category)
             }}
-            icon={getCustomMarkerIcon(store.name, store.category)}
+            icon={getCustomMarkerIcon(store.name, store.category, setStoreIcon)}
           />
         ))}
       </NaverMap>
@@ -179,7 +268,7 @@ function Home() {
             <Row className="vw-100 px-3">
               <Col className="me-1">
                 <LinkButton
-                  className="p-1 pb-2 border border-dark"
+                  className="p-1 border border-dark"
                   style={{ borderRadius: '30px' }}
                 >
                   <Col className="px-0" xs={3}>
@@ -231,7 +320,7 @@ function Home() {
               height: '100vh',
             }}
           >
-            <MyMap storeList={storeList} />
+            <MyMap storeList={storeList} setStoreIcon={setStoreIcon} />
           </MapDiv>
         </Content>
       </Container>
