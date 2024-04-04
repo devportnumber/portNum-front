@@ -141,6 +141,14 @@ function Store() {
   }
 
   const redirectUrl = (urlLink) => {
+    ReactGA.event({
+      name: urlLink,
+      id: storeId,
+      page: 'Store',
+      category: 'AddressMapUrlRedirect',
+      action: 'Click',
+      label: '지도로 길찾기',
+    })
     window.location.href = urlLink
   }
 
