@@ -77,7 +77,7 @@ function Store() {
   useEffect(() => {
     if (storeId) {
       fetchData(
-        `http://43.202.3.23:8080/store?storeId=${storeId}`,
+        `https://43.202.3.23:8080/store?storeId=${storeId}`,
         'GET',
         null,
         null,
