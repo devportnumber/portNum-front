@@ -26,6 +26,9 @@ import GoodsIcon from '../assets/icons/maps/point_22_goods.svg'
 import RestaurantIcon from '../assets/icons/maps/point_22_restaurant.svg'
 import Logo from '../assets/icons/logo/paulseee_logo.png'
 
+// Data
+import * as constantsData from './ConstantsData.js'
+
 // Components
 import StoreModal from '../components/Modal'
 
@@ -35,79 +38,6 @@ import { useAxios } from '../hooks/useAxios'
 import styled from 'styled-components'
 
 function Home() {
-  const dummyData = [
-    {
-      storeId: 1,
-      name: '기안84 개인전',
-      category: 'fashion',
-      longitude: '37.548654',
-      latitude: '127.051588',
-    },
-    {
-      storeId: 2,
-      name: '엄브로',
-      category: 'bakery',
-      longitude: '37.579772',
-      latitude: '127.048544',
-    },
-    {
-      storeId: 3,
-      name: '가나초콜릿하우스',
-      category: 'cafe',
-      longitude: '37.536602',
-      latitude: '127.044783',
-    },
-    {
-      storeId: 4,
-      name: '샤넬 조향 마스터클래스',
-      category: 'fashion',
-      longitude: '37.579686',
-      latitude: '127.048707',
-    },
-    {
-      storeId: 5,
-      name: '마뗑킴',
-      category: 'bakery',
-      longitude: '37.579208',
-      latitude: '127.047532',
-    },
-    {
-      storeId: 6,
-      name: '반클리프',
-      category: 'restaurant',
-      longitude: '37.560261',
-      latitude: '127.0303',
-    },
-    {
-      storeId: 7,
-      name: '폴씨네 뚝도상점',
-      category: 'goods',
-      longitude: '37.545874',
-      latitude: '127.103174',
-    },
-    {
-      storeId: 8,
-      name: '페넥',
-      category: 'bakery',
-      longitude: '37.579235',
-      latitude: '127.047194',
-    },
-    {
-      storeId: 9,
-      name: '열어봐 너의 민감함',
-      category: 'cafe',
-      longitude: '37.580833',
-      latitude: '127.050153',
-    },
-    {
-      storeId: 10,
-      name: '1𝑆𝑇 𝐷𝐼𝑁𝑇𝑂 𝑃𝑂𝑃-𝑈𝑃 <',
-      category: 'fashion',
-      longitude: '37.564735',
-      latitude: '127.033939',
-    },
-  ]
-
   const { fetchData, loading, data, error } = useAxios()
   const {
     fetchData: getStoreInfo,
@@ -133,38 +63,39 @@ function Home() {
 
   useEffect(() => {
     if (storeId) {
-      handleShow(storeId)
+      // handleShow(storeId)
+      handleShow(parseInt(storeId)) //must be int for dummmy data
     }
   }, [storeId])
 
   // 가게 목록 불러오기 Fetch All Stores Info API
   useEffect(() => {
     ReactGA.initialize('G-P4SP6NH4KM')
-    fetchData('http://43.202.3.23:8080/store/list', 'GET', null, null)
+    // fetchData('http://43.202.3.23:8080/store/list', 'GET', null, null)
+    fetchData('https://jsonplaceholder.typicode.com/todos', 'GET', null, null)
   }, [])
 
   // 가게 목록 저장 Save StoreInfoAPI Data
   useEffect(() => {
     if (data) {
-      // setStoreList(dummyData)
-      setStoreList(data)
+      setStoreList(constantsData.storeListDbData)
+      // setStoreList(data)
     }
   }, [data])
 
   // 가게 정보 불러오기 Fetch Store Info API
-  useEffect(() => {
-    if (getStoreInfoData) {
-      setStoreInfo(getStoreInfoData)
-      setStoreIcon(getCategoryIcon(getStoreInfoData.category))
-      setShow(true)
-    }
-  }, [getStoreInfoData])
-
   // useEffect(() => {
-  //   if (storeIcon) {
-  //     console.log('storeIcon changed-' + storeIcon)
+  //   if (getStoreInfoData) {
+  //     setStoreInfo(getStoreInfoData)
+  //     setStoreIcon(getCategoryIcon(getStoreInfoData.category))
+  //     setShow(true)
   //   }
-  // }, [storeIcon])
+  // }, [getStoreInfoData])
+
+  //dum data get object from id param
+  const findStoreDetailById = (id) => {
+    return constantsData.storeListDetailDbData.find((item) => item.id === id)
+  }
 
   // 모달 뛰우기 Show Store Modal
   const handleShow = (id, name, category) => {
@@ -176,14 +107,14 @@ function Home() {
       action: 'Click',
       label: 'map marker click',
     })
-    // setStoreIcon(getCategoryIcon(category))
 
-    getStoreInfo(
-      `http://43.202.3.23:8080/store?storeId=${id}`, //${id} + id,
-      'GET',
-      null,
-      null,
-    )
+    // getStoreInfo(`http://43.202.3.23:8080/store?storeId=${id}`,'GET',null, null)
+    //   `https://jsonplaceholder.typicode.com/todos/${id}`,
+    //dummy data
+    const storeDetailObject = findStoreDetailById(id)
+    setStoreInfo(storeDetailObject)
+    setStoreIcon(getCategoryIcon(storeDetailObject.category))
+    setShow(true)
   }
 
   const redirectUrl = (urlLink) => {
