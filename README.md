@@ -6,7 +6,7 @@
 
 branch 설명
 
-  040424_FrontEndData ==>API 없이 프론트에서 데이터 밖아서 처리
-  master
-  mvp_1 ==> http:.../store/list API호출
-  mvp_1_https ==> https:.../store/list API호출
+040424_FrontEndData ==>API 없이 프론트에서 데이터 밖아서 처리
+master
+mvp_1 ==> http:.../store/list API호출
+mvp_1_https ==> https:.../store/list API호출
