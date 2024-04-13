@@ -31,6 +31,10 @@ import { MdKeyboardArrowLeft } from 'react-icons/md'
 
 import styled from 'styled-components'
 
+// Utils
+import getCategoryIcon from '../utils/getCategoryIcon'
+import copyToClipboard from '../utils/copyToClipboard'
+
 const imageSlideStyle = `
 div.scroll-container {
   background-color: #333;
@@ -77,7 +81,7 @@ function Store() {
   useEffect(() => {
     if (storeId) {
       fetchData(
-        `https://43.202.3.23:8080/store?storeId=${storeId}`,
+        `http://43.202.3.23:8080/store?storeId=${storeId}`,
         'GET',
         null,
         null,
@@ -88,52 +92,9 @@ function Store() {
   useEffect(() => {
     if (storeDetail) {
       setStoreInfo(storeDetail)
-      let categoryIcon
-      switch (storeDetail.category) {
-        case 'bar':
-          categoryIcon =
-            '/static/media/point_22_bar.9075eb533419c775a719b0bba0cae22b.svg'
-          break
-        case 'bakery':
-          categoryIcon =
-            '/static/media/point_22_bakery.a059d87647b55d97dfdec611f01807a0.svg'
-          break
-        case 'cafe':
-          categoryIcon =
-            '/static/media/point_22_cafe.6a9cf6367a1a18793d10f7675a2dd6b1.svg'
-          break
-        case 'fashion':
-          categoryIcon =
-            '/static/media/point_22_fashion.a526b493bbdaff38a71dd4219bf4cea3.svg'
-          break
-        case 'goods':
-          categoryIcon =
-            '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
-          break
-        case 'restaurant':
-          categoryIcon =
-            '/static/media/point_22_restaurant.5c427a0dc4858890f49698fec4732628.svg'
-          break
-        default:
-          categoryIcon =
-            '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
-      }
-      setCategoryIcon(categoryIcon)
+      setCategoryIcon(getCategoryIcon(storeDetail.category))
     }
   }, [storeDetail])
-
-  //복사 기능
-  const copyToClipboard = (text) => {
-    const textarea = document.createElement('textarea')
-    textarea.value = text
-    textarea.style.position = 'absolute'
-    textarea.style.left = '-9999px'
-    document.body.appendChild(textarea)
-    textarea.select()
-    document.execCommand('copy')
-    alert('복사가 완료되었습니다.')
-    document.body.removeChild(textarea)
-  }
 
   //주소 복사하기
   const copyAddress = (address, storeId, storeName) => {

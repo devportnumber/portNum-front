@@ -21,6 +21,9 @@ import { AiOutlineShareAlt } from 'react-icons/ai'
 // Google Analytics
 import ReactGA from 'react-ga4'
 
+// Utils
+import copyToClipboard from '../utils/copyToClipboard'
+
 function ControlledCarousel({ imageList, storeInfo, storeId }) {
   const carouselStyle = `
     .carousel-inner {
@@ -48,21 +51,6 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
     setIndex(selectedIndex)
   }
 
-  //복사기능
-  const copyToClipboard = () => {
-    const baseUrl = process.env.REACT_APP_BASE_URL
-    const currentUrl = baseUrl + location.pathname
-    const textarea = document.createElement('textarea')
-    textarea.value = currentUrl
-    textarea.style.position = 'absolute'
-    textarea.style.left = '-9999px'
-    document.body.appendChild(textarea)
-    textarea.select()
-    document.execCommand('copy')
-    alert('복사가 완료되었습니다.')
-    document.body.removeChild(textarea)
-  }
-
   //상세 페이지 공유하기
   const shareStoreLink = (storeId, storeName, event) => {
     ReactGA.event({
@@ -73,7 +61,9 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
       action: 'Click',
       label: 'share store link click',
     })
-    copyToClipboard()
+    const baseUrl = process.env.REACT_APP_BASE_URL
+    const currentUrl = baseUrl + location.pathname
+    copyToClipboard(currentUrl)
   }
   return (
     <>
@@ -86,7 +76,7 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
       >
         {imageList.map((image, index) => (
           <StyledCarouselItem key={index}>
-            <StyledImage className="" src={image} />
+            <StyledImage src={image} />
           </StyledCarouselItem>
         ))}
       </StyledCarousel>

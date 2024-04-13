@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { renderToString } from 'react-dom/server'
 
 // Google Analytics
 import ReactGA from 'react-ga4'
@@ -13,9 +12,8 @@ import {
 } from 'react-naver-maps'
 
 // Bootstrap
-import Button from 'react-bootstrap/Button'
 import { Row, Col } from 'react-bootstrap'
-import { AiOutlineSmile, AiOutlineArrowRight } from 'react-icons/ai'
+import { AiOutlineArrowRight } from 'react-icons/ai'
 
 // Icons
 import BakeryIcon from '../assets/icons/maps/point_22_bakery.svg'
@@ -24,6 +22,7 @@ import BarIcon from '../assets/icons/maps/point_22_bar.svg'
 import CafeIcon from '../assets/icons/maps/point_22_cafe.svg'
 import GoodsIcon from '../assets/icons/maps/point_22_goods.svg'
 import RestaurantIcon from '../assets/icons/maps/point_22_restaurant.svg'
+import ExhibitionIcon from '../assets/icons/maps/point_22_exhibition.svg'
 import Logo from '../assets/icons/logo/paulseee_logo.png'
 
 // Components
@@ -31,6 +30,9 @@ import StoreModal from '../components/Modal'
 
 // Hooks
 import { useAxios } from '../hooks/useAxios'
+
+// Utils
+import getCategoryIcon from '../utils/getCategoryIcon'
 
 import styled from 'styled-components'
 
@@ -140,13 +142,12 @@ function Home() {
   // 가게 목록 불러오기 Fetch All Stores Info API
   useEffect(() => {
     ReactGA.initialize('G-P4SP6NH4KM')
-    fetchData('https://43.202.3.23:8080/store/list', 'GET', null, null)
+    fetchData('http://43.202.3.23:8080/store/list', 'GET', null, null)
   }, [])
 
   // 가게 목록 저장 Save StoreInfoAPI Data
   useEffect(() => {
     if (data) {
-      // setStoreList(dummyData)
       setStoreList(data)
     }
   }, [data])
@@ -160,12 +161,6 @@ function Home() {
     }
   }, [getStoreInfoData])
 
-  // useEffect(() => {
-  //   if (storeIcon) {
-  //     console.log('storeIcon changed-' + storeIcon)
-  //   }
-  // }, [storeIcon])
-
   // 모달 뛰우기 Show Store Modal
   const handleShow = (id, name, category) => {
     ReactGA.event({
@@ -176,7 +171,6 @@ function Home() {
       action: 'Click',
       label: 'map marker click',
     })
-    // setStoreIcon(getCategoryIcon(category))
 
     getStoreInfo(
       `http://43.202.3.23:8080/store?storeId=${id}`, //${id} + id,
@@ -190,51 +184,19 @@ function Home() {
     window.location.href = urlLink
   }
 
-  const getCategoryIcon = (category) => {
-    let categoryIcon
-    switch (category) {
-      case 'bar':
-        categoryIcon =
-          '/static/media/point_22_bar.9075eb533419c775a719b0bba0cae22b.svg'
-        break
-      case 'bakery':
-        categoryIcon =
-          '/static/media/point_22_bakery.a059d87647b55d97dfdec611f01807a0.svg'
-        break
-      case 'cafe':
-        categoryIcon =
-          '/static/media/point_22_cafe.6a9cf6367a1a18793d10f7675a2dd6b1.svg'
-        break
-      case 'fashion':
-        categoryIcon =
-          '/static/media/point_22_fashion.a526b493bbdaff38a71dd4219bf4cea3.svg'
-        break
-      case 'goods':
-        categoryIcon =
-          '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
-        break
-      case 'restaurant':
-        categoryIcon =
-          '/static/media/point_22_restaurant.5c427a0dc4858890f49698fec4732628.svg'
-        break
-      default:
-        categoryIcon =
-          '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
-    }
-    return categoryIcon
-    // setStoreIcon(categoryIcon)
-  }
   // 위치 지도에 뛰우기 Render Naver Map
   function MyMap({ storeList, setStoreIcon }) {
     const navermaps = useNavermaps()
 
     //아이콘
     const getCustomMarkerIcon = (storeName, category, setStoreIcon) => {
-      // setStoreIcon(getCategoryIcon(category))
       return {
         content: `<img src="${getCategoryIcon(
           category,
-        )}" /><span class="m-1 badge rounded-pill bg-light text-dark me-1 border border-dark ">${storeName}</span>`,
+        )}" /><span class="bubble bubble-bottom-left">${storeName}</span>`,
+        // content: `<img src="${getCategoryIcon(
+        //   category,
+        // )}" /><span class="m-1 badge rounded-pill bg-light text-dark me-1 border border-dark ">${storeName}</span>`,
       }
     }
 
@@ -248,7 +210,6 @@ function Home() {
             key={index}
             defaultPosition={
               new navermaps.LatLng(store.longitude, store.latitude)
-              // new navermaps.LatLng(store.longitude, store.latitude)
             }
             onClick={() => {
               handleShow(store.storeId, store.name, store.category)
@@ -264,50 +225,52 @@ function Home() {
     <>
       <Container>
         <Content>
+          {/* <div class="bubble left"> ut labore et dolore magna </div> */}
+
           <LinkButtonContainer>
             <Row className="vw-100 px-3">
               <Col className="me-1">
-                <LinkButton
-                  className="p-1 border border-dark"
-                  style={{ borderRadius: '30px' }}
-                >
-                  <Col className="px-0" xs={3}>
-                    <LogoImg src={Logo} />
-                    {/* <LogoImg src={BakeryIcon} /> */}
-                    {/* <LogoImg src={FashionIcon} /> */}
-                  </Col>
+                <LinkButton>
                   <Col
                     className="px-0 d-flex justify-content-center align-items-center"
-                    style={{ fontSize: '12px' }}
+                    xs={3}
+                  >
+                    <LogoImg src={Logo} />
+                  </Col>
+                  <MenuCol
                     onClick={() =>
                       redirectUrl(' https://blog.naver.com/paulssi')
                     }
                   >
                     <strong>폴씨 블로그</strong>
-                  </Col>
-                  <Col className="" xs={3}>
+                  </MenuCol>
+                  <Col
+                    className="d-flex justify-content-center align-items-center"
+                    xs={3}
+                  >
                     <AiOutlineArrowRight />
                   </Col>
                 </LinkButton>
               </Col>
               <Col className="ms-1">
-                <LinkButton
-                  className="p-1 border border-dark"
-                  style={{ borderRadius: '30px' }}
-                >
-                  <Col className="px-0" xs={3}>
-                    <LogoImg src={Logo} />
-                  </Col>
+                <LinkButton>
                   <Col
                     className="px-0 d-flex justify-content-center align-items-center"
-                    style={{ fontSize: '12px' }}
+                    xs={3}
+                  >
+                    <LogoImg src={Logo} />
+                  </Col>
+                  <MenuCol
                     onClick={() =>
                       redirectUrl('https://www.instagram.com/paulseee')
                     }
                   >
                     <strong>인스타그램</strong>
-                  </Col>
-                  <Col className="" xs={3}>
+                  </MenuCol>
+                  <Col
+                    className="d-flex justify-content-center align-items-center"
+                    xs={3}
+                  >
                     <AiOutlineArrowRight />
                   </Col>
                 </LinkButton>
@@ -347,6 +310,31 @@ const Content = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
+  .bubble {
+    position: relative;
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 24px;
+    width: 300px !important;
+    background: #aabbcc;
+    border-radius: 40px;
+    padding: 6px;
+    text-align: center;
+    color: #000;
+  }
+
+  .bubble-bottom-left:before {
+    content: '';
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 24px solid #aabbcc;
+    border-right: 12px solid transparent;
+    border-top: 12px solid #aabbcc;
+    border-bottom: 20px solid transparent;
+    left: 32px;
+    bottom: -24px;
+  }
 `
 const LinkButtonContainer = styled.div`
   position: fixed;
@@ -359,14 +347,25 @@ const LinkButtonContainer = styled.div`
   text-align: center;
 `
 const LinkButton = styled(Row)`
+  padding: 8px;
+  border: 1px solid #343a40;
+  border-radius: 30px;
   background: #ffffff;
   transition: background 0.3s ease;
   &:hover {
-    background: blue;
+    background: #0971f8;
     color: #ffffff;
   }
 `
 const LogoImg = styled.img`
-  height: 20px;
+  height: 24px;
   border-radius: 30px;
+`
+
+const MenuCol = styled(Col)`
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
 `

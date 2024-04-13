@@ -10,9 +10,11 @@ import { PiMapPinDuotone } from 'react-icons/pi'
 import {
   AiTwotoneClockCircle,
   AiTwotoneCalendar,
-  AiFillCopy,
   AiOutlineShareAlt,
 } from 'react-icons/ai'
+
+// Utils
+import copyToClipboard from '../utils/copyToClipboard'
 
 function StoreModal({ show, setShow, storeInfo, storeIcon }) {
   const handleClose = () => setShow(false)
@@ -31,8 +33,8 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
   }
   .modal-content {
     border-radius: 25px;
-    border: solid 1px black;
-    }
+    border: 1px solid #343a40;
+  }
 `
   useEffect(() => {
     ReactGA.initialize('G-P4SP6NH4KM')
@@ -54,18 +56,6 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
     })
   }
 
-  const copyToClipboard = (text) => {
-    const textarea = document.createElement('textarea')
-    textarea.value = text
-    textarea.style.position = 'absolute'
-    textarea.style.left = '-9999px'
-    document.body.appendChild(textarea)
-    textarea.select()
-    document.execCommand('copy')
-    alert('복사가 완료되었습니다.')
-    document.body.removeChild(textarea)
-  }
-
   //share link
   const shareModalLink = (storeId, storeName, event) => {
     event.stopPropagation()
@@ -78,7 +68,6 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
       action: 'Click',
       label: 'share store link click',
     })
-    // const linkUrl = `https://portnumber.site/paulseee?id=${storeId}`
     const linkUrl = `${process.env.REACT_APP_BASE_URL}/paulseee?id=${storeId}`
     copyToClipboard(linkUrl)
   }
@@ -124,7 +113,7 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
                 <Col className="">{storeInfo.time}</Col>
               </Row>
             </Row>
-            <Row className="">
+            <Row>
               <p className="mb-2">
                 {storeInfo.keywords?.map((keyword, index) => (
                   <span
