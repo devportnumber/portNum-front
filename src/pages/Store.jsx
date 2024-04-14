@@ -119,6 +119,18 @@ function Store() {
     copyToClipboard(address)
   }
 
+  const redirectUrl = (urlLink) => {
+    ReactGA.event({
+      name: urlLink,
+      id: storeId,
+      page: 'Store',
+      category: 'AddressMapUrlRedirect',
+      action: 'Click',
+      label: '지도로 길찾기',
+    })
+    window.location.href = urlLink
+  }
+
   return (
     // {loading && <div>Loading...</div>}
     // {error && <div>Error: {error.message}</div>}
@@ -172,6 +184,17 @@ function Store() {
                       )
                     }
                   />
+                </Col>
+              </Row>
+              <Row className="mt-1">
+                <Col xs={1} className="ps-0">
+                  ICON
+                </Col>
+                <Col
+                  className="ps-0"
+                  onClick={() => redirectUrl(`${storeInfo.map_link}`)}
+                >
+                  <p class="text-primary">지도로 길찾기</p>
                 </Col>
               </Row>
             </InfoRow>
