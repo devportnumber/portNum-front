@@ -73,25 +73,26 @@ function Home() {
   // 가게 목록 불러오기 Fetch All Stores Info API
   useEffect(() => {
     ReactGA.initialize('G-P4SP6NH4KM')
-    fetchData('http://43.202.3.23:8080/store/list', 'GET', null, null)
+    fetchData('https://api.portnumber.site/store/list', 'GET', null, null)
   }, [])
 
   // 가게 목록 저장 Save StoreInfoAPI Data
   useEffect(() => {
     if (data) {
       //Dummy Data Stuff
-      setStoreList(constantsData.storeListData)
+      // setStoreList(constantsData.storeListData)
+      setStoreList(data)
     }
   }, [data])
 
   // 가게 정보 불러오기 Fetch Store Info API
-  // useEffect(() => {
-  //   if (getStoreInfoData) {
-  //     setStoreInfo(getStoreInfoData)
-  //     setStoreIcon(getCategoryIcon(getStoreInfoData.category))
-  //     setShow(true)
-  //   }
-  // }, [getStoreInfoData])
+  useEffect(() => {
+    if (getStoreInfoData) {
+      setStoreInfo(getStoreInfoData)
+      setStoreIcon(getCategoryIcon(getStoreInfoData.category))
+      setShow(true)
+    }
+  }, [getStoreInfoData])
 
   // 모달 뛰우기 Show Store Modal
   const handleShow = (id, name, category) => {
