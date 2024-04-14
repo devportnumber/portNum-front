@@ -34,9 +34,12 @@ export default function getCategoryIcon(category) {
       categoryIcon =
         '/static/media/point_22_restaurant.5c427a0dc4858890f49698fec4732628.svg'
       break
-    default:
+    case 'exhibition':
       categoryIcon =
-        '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
+        '/static/media/point_22_exhibition.af2e04804b05af6ef5f8b5c47c40c9e8.svg'
+      break
+    default:
+      categoryIcon = '../assets/icons/maps/point_22_exhibition.svg'
   }
   return categoryIcon
 }

@@ -18,6 +18,7 @@ import BarIcon from '../assets/icons/maps/point_22_bar.svg'
 import CafeIcon from '../assets/icons/maps/point_22_cafe.svg'
 import GoodsIcon from '../assets/icons/maps/point_22_goods.svg'
 import RestaurantIcon from '../assets/icons/maps/point_22_restaurant.svg'
+import ExhibitionIcon from '../assets/icons/maps/point_22_exhibition.svg'
 
 //bootstrap
 import { Row, Col } from 'react-bootstrap'
@@ -31,9 +32,13 @@ import { MdKeyboardArrowLeft } from 'react-icons/md'
 
 import styled from 'styled-components'
 
+// Data
+import * as constantsData from '../assets/data/Data'
+
 // Utils
 import getCategoryIcon from '../utils/getCategoryIcon'
 import copyToClipboard from '../utils/copyToClipboard'
+import findStoreDetailById from '../utils/findStoreDetail'
 
 const imageSlideStyle = `
 div.scroll-container {
@@ -69,7 +74,7 @@ function Store() {
         setStoreInfo(storeInfoState)
       }
       if (storeIcon) {
-        setCategoryIcon(storeIcon)
+        setCategoryIcon(getCategoryIcon(storeIcon))
       }
     } else {
       if (storeIdParam) {
@@ -80,21 +85,26 @@ function Store() {
 
   useEffect(() => {
     if (storeId) {
-      fetchData(
-        `http://43.202.3.23:8080/store?storeId=${storeId}`,
-        'GET',
-        null,
-        null,
-      )
+      // fetchData(
+      //   `http://43.202.3.23:8080/store?storeId=${storeId}`,
+      //   'GET',
+      //   null,
+      //   null,
+      // )
+
+      //dummy data stuff
+      const storeDetailData = findStoreDetailById(parseInt(storeId))
+      setStoreInfo(storeDetailData)
+      setCategoryIcon(getCategoryIcon(storeDetailData.category))
     }
   }, [storeId])
 
-  useEffect(() => {
-    if (storeDetail) {
-      setStoreInfo(storeDetail)
-      setCategoryIcon(getCategoryIcon(storeDetail.category))
-    }
-  }, [storeDetail])
+  // useEffect(() => {
+  //   if (storeDetail) {
+  //     setStoreInfo(storeDetail)
+  //     setCategoryIcon(getCategoryIcon(storeDetail.category))
+  //   }
+  // }, [storeDetail])
 
   //주소 복사하기
   const copyAddress = (address, storeId, storeName) => {

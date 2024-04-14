@@ -31,85 +31,16 @@ import StoreModal from '../components/Modal'
 // Hooks
 import { useAxios } from '../hooks/useAxios'
 
+// Data
+import * as constantsData from '../assets/data/Data'
+
 // Utils
 import getCategoryIcon from '../utils/getCategoryIcon'
+import findStoreDetailById from '../utils/findStoreDetail'
 
 import styled from 'styled-components'
 
 function Home() {
-  const dummyData = [
-    {
-      storeId: 1,
-      name: '기안84 개인전',
-      category: 'fashion',
-      longitude: '37.548654',
-      latitude: '127.051588',
-    },
-    {
-      storeId: 2,
-      name: '엄브로',
-      category: 'bakery',
-      longitude: '37.579772',
-      latitude: '127.048544',
-    },
-    {
-      storeId: 3,
-      name: '가나초콜릿하우스',
-      category: 'cafe',
-      longitude: '37.536602',
-      latitude: '127.044783',
-    },
-    {
-      storeId: 4,
-      name: '샤넬 조향 마스터클래스',
-      category: 'fashion',
-      longitude: '37.579686',
-      latitude: '127.048707',
-    },
-    {
-      storeId: 5,
-      name: '마뗑킴',
-      category: 'bakery',
-      longitude: '37.579208',
-      latitude: '127.047532',
-    },
-    {
-      storeId: 6,
-      name: '반클리프',
-      category: 'restaurant',
-      longitude: '37.560261',
-      latitude: '127.0303',
-    },
-    {
-      storeId: 7,
-      name: '폴씨네 뚝도상점',
-      category: 'goods',
-      longitude: '37.545874',
-      latitude: '127.103174',
-    },
-    {
-      storeId: 8,
-      name: '페넥',
-      category: 'bakery',
-      longitude: '37.579235',
-      latitude: '127.047194',
-    },
-    {
-      storeId: 9,
-      name: '열어봐 너의 민감함',
-      category: 'cafe',
-      longitude: '37.580833',
-      latitude: '127.050153',
-    },
-    {
-      storeId: 10,
-      name: '1𝑆𝑇 𝐷𝐼𝑁𝑇𝑂 𝑃𝑂𝑃-𝑈𝑃 <',
-      category: 'fashion',
-      longitude: '37.564735',
-      latitude: '127.033939',
-    },
-  ]
-
   const { fetchData, loading, data, error } = useAxios()
   const {
     fetchData: getStoreInfo,
@@ -148,18 +79,19 @@ function Home() {
   // 가게 목록 저장 Save StoreInfoAPI Data
   useEffect(() => {
     if (data) {
-      setStoreList(data)
+      //Dummy Data Stuff
+      setStoreList(constantsData.storeListData)
     }
   }, [data])
 
   // 가게 정보 불러오기 Fetch Store Info API
-  useEffect(() => {
-    if (getStoreInfoData) {
-      setStoreInfo(getStoreInfoData)
-      setStoreIcon(getCategoryIcon(getStoreInfoData.category))
-      setShow(true)
-    }
-  }, [getStoreInfoData])
+  // useEffect(() => {
+  //   if (getStoreInfoData) {
+  //     setStoreInfo(getStoreInfoData)
+  //     setStoreIcon(getCategoryIcon(getStoreInfoData.category))
+  //     setShow(true)
+  //   }
+  // }, [getStoreInfoData])
 
   // 모달 뛰우기 Show Store Modal
   const handleShow = (id, name, category) => {
@@ -172,12 +104,18 @@ function Home() {
       label: 'map marker click',
     })
 
-    getStoreInfo(
-      `http://43.202.3.23:8080/store?storeId=${id}`, //${id} + id,
-      'GET',
-      null,
-      null,
-    )
+    //   getStoreInfo(
+    //     `http://43.202.3.23:8080/store?storeId=${id}`, //${id} + id,
+    //     'GET',
+    //     null,
+    //     null,
+    //   )
+
+    //Dummy Data Stuff
+    const storeDetailData = findStoreDetailById(parseInt(id))
+    setStoreInfo(storeDetailData)
+    setStoreIcon(storeDetailData.category)
+    setShow(true)
   }
 
   const redirectUrl = (urlLink) => {

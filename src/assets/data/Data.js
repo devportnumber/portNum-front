@@ -1,7 +1,7 @@
-export const storeListDetailDbData = [
+export const storeListDetailData = [
   {
     id: 1,
-    category: 'goods',
+    category: 'exhibition',
     dates: '24.03.23 - 24.04.20',
     time: 'Thursday 10:00 ~ 19:00',
     name: '기안84 개인전',
@@ -201,11 +201,11 @@ export const storeListDetailDbData = [
   },
 ]
 
-export const storeListDbData = [
+export const storeListData = [
   {
     storeId: 1,
     name: '기안84 개인전',
-    category: 'goods',
+    category: 'exhibition',
     longitude: '37.54183',
     latitude: '127.0563',
   },

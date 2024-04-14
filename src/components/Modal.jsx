@@ -97,7 +97,7 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
             onClick={() => handleClick(storeInfo.id, storeInfo.name)}
             className="px-4"
           >
-            <Row className="mb-1 d-flex align-items-center">
+            <Row className="mb-2 d-flex align-items-center">
               <Col xs={1} className="pe-0 d-flex align-items-center">
                 <IconImg src={getCategoryIcon(storeInfo.category)} />
               </Col>
@@ -118,17 +118,17 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
                 <Col xs={1} className="pe-0 d-flex align-items-center">
                   <IconImg src={DateIcon} />
                 </Col>
-                <Col className="">{storeInfo.dates}</Col>
+                <Col>{storeInfo.dates}</Col>
               </Row>
-              <Row className="mb-4 d-flex align-items-center">
+              <Row className="mb-3 d-flex align-items-center">
                 <Col xs={1} className="pe-0 d-flex align-items-center">
                   <IconImg src={TimeIcon} />
                 </Col>
-                <Col className="">{storeInfo.time}</Col>
+                <Col>{storeInfo.time}</Col>
               </Row>
             </Row>
-            <Row className="">
-              <p className="mb-2">
+            <Row>
+              <p className="mb-3">
                 {storeInfo.keywords?.map((keyword, index) => (
                   <span
                     key={index}
