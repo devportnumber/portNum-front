@@ -191,12 +191,12 @@ function Home() {
     //아이콘
     const getCustomMarkerIcon = (storeName, category, setStoreIcon) => {
       return {
-        content: `<img src="${getCategoryIcon(
-          category,
-        )}" /><span class="bubble bubble-bottom-left">${storeName}</span>`,
         // content: `<img src="${getCategoryIcon(
         //   category,
-        // )}" /><span class="m-1 badge rounded-pill bg-light text-dark me-1 border border-dark ">${storeName}</span>`,
+        // )}" /><span class="bubble left">${storeName}</span>`,
+        content: `<img src="${getCategoryIcon(
+          category,
+        )}" /><span class="m-1 badge rounded-pill bg-light text-dark me-1 border border-dark ">${storeName}</span>`,
       }
     }
 
@@ -311,29 +311,27 @@ const Content = styled.div`
   align-items: center;
   text-align: center;
   .bubble {
-    position: relative;
-    font-family: sans-serif;
     font-size: 12px;
-    line-height: 24px;
-    width: 300px !important;
-    background: #aabbcc;
-    border-radius: 40px;
-    padding: 6px;
-    text-align: center;
-    color: #000;
+    --r: 11px;
+    --t: 16px;
+    max-width: 300px;
+    padding: calc(2 * var(--r) / 5);
+    -webkit-mask: radial-gradient(var(--t) at var(--_d) 0, #0000 98%, #000 102%)
+        var(--_d) 100% / calc(100% - var(--r)) var(--t) no-repeat,
+      conic-gradient(at var(--r) var(--r), #000 75%, #0000 0)
+        calc(var(--r) / -2) calc(var(--r) / -2) padding-box,
+      radial-gradient(50% 50%, #000 98%, #0000 101%) 0 0 / var(--r) var(--r)
+        space padding-box;
+    background: linear-gradient(135deg, #fe6d00, #1384c5) border-box;
+    // background: white;
+    // color: black;
+    color: #fff;
   }
-
-  .bubble-bottom-left:before {
-    content: '';
-    width: 0px;
-    height: 0px;
-    position: absolute;
-    border-left: 24px solid #aabbcc;
-    border-right: 12px solid transparent;
-    border-top: 12px solid #aabbcc;
-    border-bottom: 20px solid transparent;
-    left: 32px;
-    bottom: -24px;
+  .left {
+    --_d: 0%;
+    border-left: var(--t) solid #0000;
+    margin-right: var(--t);
+    place-self: start;
   }
 `
 const LinkButtonContainer = styled.div`
@@ -347,7 +345,7 @@ const LinkButtonContainer = styled.div`
   text-align: center;
 `
 const LinkButton = styled(Row)`
-  padding: 8px;
+  padding: 6px;
   border: 1px solid #343a40;
   border-radius: 30px;
   background: #ffffff;

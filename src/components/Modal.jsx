@@ -6,15 +6,17 @@ import ReactGA from 'react-ga4'
 
 // Bootstrap
 import { Modal, Button, Container, Row, Col } from 'react-bootstrap'
-import { PiMapPinDuotone } from 'react-icons/pi'
-import {
-  AiTwotoneClockCircle,
-  AiTwotoneCalendar,
-  AiOutlineShareAlt,
-} from 'react-icons/ai'
 
 // Utils
-import copyToClipboard from '../utils/copyToClipboard'
+import getCategoryIcon from '../utils/getCategoryIcon'
+
+// Icons
+import ShareIcon from '../assets/icons/modal/icon_blu_18_share.svg'
+import DateIcon from '../assets/icons/modal/icon_gry_18_date.svg'
+import TimeIcon from '../assets/icons/modal/icon_gry_18_time.svg'
+import PinIcon from '../assets/icons/modal/icon_gry_18_pin.svg'
+
+import styled from 'styled-components'
 
 function StoreModal({ show, setShow, storeInfo, storeIcon }) {
   const handleClose = () => setShow(false)
@@ -33,8 +35,8 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
   }
   .modal-content {
     border-radius: 25px;
-    border: 1px solid #343a40;
-  }
+    border: solid 1px black;
+    }
 `
   useEffect(() => {
     ReactGA.initialize('G-P4SP6NH4KM')
@@ -56,6 +58,18 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
     })
   }
 
+  const copyToClipboard = (text) => {
+    const textarea = document.createElement('textarea')
+    textarea.value = text
+    textarea.style.position = 'absolute'
+    textarea.style.left = '-9999px'
+    document.body.appendChild(textarea)
+    textarea.select()
+    document.execCommand('copy')
+    alert('복사가 완료되었습니다.')
+    document.body.removeChild(textarea)
+  }
+
   //share link
   const shareModalLink = (storeId, storeName, event) => {
     event.stopPropagation()
@@ -68,6 +82,7 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
       action: 'Click',
       label: 'share store link click',
     })
+    // const linkUrl = `https://portnumber.site/paulseee?id=${storeId}`
     const linkUrl = `${process.env.REACT_APP_BASE_URL}/paulseee?id=${storeId}`
     copyToClipboard(linkUrl)
   }
@@ -82,38 +97,37 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
             onClick={() => handleClick(storeInfo.id, storeInfo.name)}
             className="px-4"
           >
-            <Row className="mb-1">
-              <Col xs={1} className="pe-0">
-                <PiMapPinDuotone />
+            <Row className="mb-1 d-flex align-items-center">
+              <Col xs={1} className="pe-0 d-flex align-items-center">
+                <IconImg src={getCategoryIcon(storeInfo.category)} />
               </Col>
-              <Col className="">
-                <h5>
-                  <strong>
-                    {storeInfo.name}
-                    <AiOutlineShareAlt
-                      onClick={(event) =>
-                        shareModalLink(storeInfo.id, storeInfo.name, event)
-                      }
-                    />
-                  </strong>
-                </h5>
+              <Col className="d-flex align-items-center">
+                <StyledName>{storeInfo.name}</StyledName>
+              </Col>
+              <Col xs={2} className="pe-0 d-flex align-items-center">
+                <ShareIconImg
+                  src={ShareIcon}
+                  onClick={(event) =>
+                    shareModalLink(storeInfo.id, storeInfo.name, event)
+                  }
+                />
               </Col>
             </Row>
             <Row className="mb-0">
-              <Row className="pb-1">
-                <Col xs={1} className="pe-0">
-                  <AiTwotoneCalendar />
+              <Row className="pb-1 d-flex align-items-center">
+                <Col xs={1} className="pe-0 d-flex align-items-center">
+                  <IconImg src={DateIcon} />
                 </Col>
                 <Col className="">{storeInfo.dates}</Col>
               </Row>
-              <Row className="mb-4">
-                <Col xs={1} className="pe-0">
-                  <AiTwotoneClockCircle />
+              <Row className="mb-4 d-flex align-items-center">
+                <Col xs={1} className="pe-0 d-flex align-items-center">
+                  <IconImg src={TimeIcon} />
                 </Col>
                 <Col className="">{storeInfo.time}</Col>
               </Row>
             </Row>
-            <Row>
+            <Row className="">
               <p className="mb-2">
                 {storeInfo.keywords?.map((keyword, index) => (
                   <span
@@ -126,9 +140,9 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
               </p>
             </Row>
             <Row>
-              <p className="mb-0">
-                <small>{storeInfo.description}</small>
-              </p>
+              <StyledDescription className="mb-0">
+                {storeInfo.description}
+              </StyledDescription>
             </Row>
           </Modal.Body>
         </Modal>
@@ -138,3 +152,29 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
 }
 
 export default StoreModal
+
+const StyledDescription = styled.pre`
+  line-height: 1.5;
+  font-size: 14px;
+  white-space: pre-wrap;
+`
+const StyledName = styled.div`
+  line-height: 1.5;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+`
+const ShareIconImg = styled.img`
+  height: 20px;
+  border-radius: 30px;
+`
+const IconImg = styled.img`
+  height: 20px;
+  border-radius: 30px;
+`
+const TitleCol = styled(Col)`
+  padding-left: 0;
+  display: flex;
+  align-items: center;
+`

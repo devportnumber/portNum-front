@@ -1,3 +1,12 @@
+// Icons
+import FashionIcon from '../assets/icons/maps/point_22_fashion.svg'
+import BarIcon from '../assets/icons/maps/point_22_bar.svg'
+import CafeIcon from '../assets/icons/maps/point_22_cafe.svg'
+import GoodsIcon from '../assets/icons/maps/point_22_goods.svg'
+import RestaurantIcon from '../assets/icons/maps/point_22_restaurant.svg'
+import ExhibitionIcon from '../assets/icons/maps/point_22_exhibition.svg'
+import Logo from '../assets/icons/logo/paulseee_logo.png'
+
 export default function getCategoryIcon(category) {
   let categoryIcon
   switch (category) {
