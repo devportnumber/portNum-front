@@ -130,12 +130,12 @@ function Home() {
     //아이콘
     const getCustomMarkerIcon = (storeName, category, setStoreIcon) => {
       return {
-        // content: `<img src="${getCategoryIcon(
-        //   category,
-        // )}" /><span class="bubble left">${storeName}</span>`,
         content: `<img style="height: 24px;" src="${getCategoryIcon(
           category,
-        )}" /><span class="m-1 badge rounded-pill bg-light text-dark me-1 border border-dark ">${storeName}</span>`,
+        )}" /><span class="bubble">${storeName}</span>`,
+        // content: `<img style="height: 24px;" src="${getCategoryIcon(
+        // category,
+        // )}" /><span class="m-1 badge rounded-pill bg-light text-dark me-1 border border-dark ">${storeName}</span>`,
       }
     }
 
@@ -164,8 +164,6 @@ function Home() {
     <>
       <Container>
         <Content>
-          {/* <div class="bubble left"> ut labore et dolore magna </div> */}
-
           <LinkButtonContainer>
             <Row className="vw-100 px-3">
               <Col className="me-1">
@@ -250,27 +248,13 @@ const Content = styled.div`
   align-items: center;
   text-align: center;
   .bubble {
+    border-radius: 15px 15px 15px 0px;
+    background: white;
     font-size: 12px;
-    --r: 11px;
-    --t: 16px;
-    max-width: 300px;
-    padding: calc(2 * var(--r) / 5);
-    -webkit-mask: radial-gradient(var(--t) at var(--_d) 0, #0000 98%, #000 102%)
-        var(--_d) 100% / calc(100% - var(--r)) var(--t) no-repeat,
-      conic-gradient(at var(--r) var(--r), #000 75%, #0000 0)
-        calc(var(--r) / -2) calc(var(--r) / -2) padding-box,
-      radial-gradient(50% 50%, #000 98%, #0000 101%) 0 0 / var(--r) var(--r)
-        space padding-box;
-    background: linear-gradient(135deg, #fe6d00, #1384c5) border-box;
-    // background: white;
-    // color: black;
-    color: #fff;
-  }
-  .left {
-    --_d: 0%;
-    border-left: var(--t) solid #0000;
-    margin-right: var(--t);
-    place-self: start;
+    padding: 4px;
+    margin: 4px;
+    border: 1px solid #343a40;
+    font-weight: 700;
   }
 `
 const LinkButtonContainer = styled.div`
@@ -291,6 +275,7 @@ const LinkButton = styled(Row)`
   transition: background 0.3s ease;
   &:hover {
     background: #0971f8;
+    border: 1px solid #0971f8;
     color: #ffffff;
   }
 `
@@ -306,3 +291,27 @@ const MenuCol = styled(Col)`
   align-items: center;
   font-size: 12px;
 `
+
+// .bubble {
+//   font-size: 12px;
+//   --r: 11px;
+//   --t: 16px;
+//   max-width: 300px;
+//   padding: calc(2 * var(--r) / 5);
+//   -webkit-mask: radial-gradient(var(--t) at var(--_d) 0, #0000 98%, #000 102%)
+//       var(--_d) 100% / calc(100% - var(--r)) var(--t) no-repeat,
+//     conic-gradient(at var(--r) var(--r), #000 75%, #0000 0)
+//       calc(var(--r) / -2) calc(var(--r) / -2) padding-box,
+//     radial-gradient(50% 50%, #000 98%, #0000 101%) 0 0 / var(--r) var(--r)
+//       space padding-box;
+//   background: linear-gradient(135deg, #fe6d00, #1384c5) border-box;
+//   // background: white;
+//   // color: black;
+//   color: #fff;
+// }
+// .left {
+//   --_d: 0%;
+//   border-left: var(--t) solid #0000;
+//   margin-right: var(--t);
+//   place-self: start;
+// }
