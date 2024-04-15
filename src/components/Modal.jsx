@@ -166,11 +166,11 @@ const StyledName = styled.div`
   font-size: 20px;
 `
 const ShareIconImg = styled.img`
-  height: 20px;
+  height: 24px;
   border-radius: 30px;
 `
 const IconImg = styled.img`
-  height: 20px;
+  height: 24px;
   border-radius: 30px;
 `
 const TitleCol = styled(Col)`

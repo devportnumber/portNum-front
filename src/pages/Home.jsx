@@ -133,7 +133,7 @@ function Home() {
         // content: `<img src="${getCategoryIcon(
         //   category,
         // )}" /><span class="bubble left">${storeName}</span>`,
-        content: `<img src="${getCategoryIcon(
+        content: `<img style="height: 24px;" src="${getCategoryIcon(
           category,
         )}" /><span class="m-1 badge rounded-pill bg-light text-dark me-1 border border-dark ">${storeName}</span>`,
       }
