@@ -26,9 +26,6 @@ import GoodsIcon from '../assets/icons/maps/point_22_goods.svg'
 import RestaurantIcon from '../assets/icons/maps/point_22_restaurant.svg'
 import Logo from '../assets/icons/logo/paulseee_logo.png'
 
-// Data
-import * as constantsData from './ConstantsData.js'
-
 // Components
 import StoreModal from '../components/Modal'
 
@@ -63,38 +60,38 @@ function Home() {
 
   useEffect(() => {
     if (storeId) {
-      // handleShow(storeId)
-      handleShow(parseInt(storeId)) //must be int for dummmy data
+      handleShow(storeId)
     }
   }, [storeId])
 
   // 가게 목록 불러오기 Fetch All Stores Info API
   useEffect(() => {
     ReactGA.initialize('G-P4SP6NH4KM')
-    fetchData('https://api.portnumber.site/store/list', 'GET', null, null)
+    fetchData('http://43.202.3.23:8080/store/list', 'GET', null, null)
   }, [])
 
   // 가게 목록 저장 Save StoreInfoAPI Data
   useEffect(() => {
     if (data) {
-      setStoreList(constantsData.storeListDbData)
-      // setStoreList(data)
+      // setStoreList(dummyData)
+      setStoreList(data)
     }
   }, [data])
 
   // 가게 정보 불러오기 Fetch Store Info API
-  // useEffect(() => {
-  //   if (getStoreInfoData) {
-  //     setStoreInfo(getStoreInfoData)
-  //     setStoreIcon(getCategoryIcon(getStoreInfoData.category))
-  //     setShow(true)
-  //   }
-  // }, [getStoreInfoData])
+  useEffect(() => {
+    if (getStoreInfoData) {
+      setStoreInfo(getStoreInfoData)
+      setStoreIcon(getCategoryIcon(getStoreInfoData.category))
+      setShow(true)
+    }
+  }, [getStoreInfoData])
 
-  //dum data get object from id param
-  const findStoreDetailById = (id) => {
-    return constantsData.storeListDetailDbData.find((item) => item.id === id)
-  }
+  // useEffect(() => {
+  //   if (storeIcon) {
+  //     console.log('storeIcon changed-' + storeIcon)
+  //   }
+  // }, [storeIcon])
 
   // 모달 뛰우기 Show Store Modal
   const handleShow = (id, name, category) => {
@@ -106,9 +103,10 @@ function Home() {
       action: 'Click',
       label: 'map marker click',
     })
+    // setStoreIcon(getCategoryIcon(category))
 
     getStoreInfo(
-      `https://api.portnumber.site/store?storeId=${id}`, //${id} + id,
+      `http://43.202.3.23:8080/store?storeId=${id}`, //${id} + id,
       'GET',
       null,
       null,
