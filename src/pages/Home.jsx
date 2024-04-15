@@ -67,7 +67,7 @@ function Home() {
   // 가게 목록 불러오기 Fetch All Stores Info API
   useEffect(() => {
     ReactGA.initialize('G-P4SP6NH4KM')
-    fetchData('http://43.202.3.23:8080/store/list', 'GET', null, null)
+    fetchData('https://api.portnumber.site/store/list', 'GET', null, null)
   }, [])
 
   // 가게 목록 저장 Save StoreInfoAPI Data
@@ -106,7 +106,7 @@ function Home() {
     // setStoreIcon(getCategoryIcon(category))
 
     getStoreInfo(
-      `http://43.202.3.23:8080/store?storeId=${id}`, //${id} + id,
+      `https://api.portnumber.site/store?storeId=${id}`, //${id} + id,
       'GET',
       null,
       null,
