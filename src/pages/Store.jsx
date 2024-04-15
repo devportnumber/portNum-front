@@ -19,9 +19,6 @@ import CafeIcon from '../assets/icons/maps/point_22_cafe.svg'
 import GoodsIcon from '../assets/icons/maps/point_22_goods.svg'
 import RestaurantIcon from '../assets/icons/maps/point_22_restaurant.svg'
 
-// Data
-import * as constantsData from './ConstantsData.js'
-
 //bootstrap
 import { Row, Col } from 'react-bootstrap'
 import {
@@ -31,7 +28,6 @@ import {
 } from 'react-icons/ai'
 import { PiMapPinDuotone } from 'react-icons/pi'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
-import { IoMapOutline } from 'react-icons/io5'
 
 import styled from 'styled-components'
 
@@ -78,15 +74,10 @@ function Store() {
     }
   }, [])
 
-  //dum data get object from id param
-  const findStoreDetailById = (id) => {
-    return constantsData.storeListDetailDbData.find((item) => item.id === id)
-  }
-
   useEffect(() => {
     if (storeId) {
       fetchData(
-        `https://api.portnumber.site/store?storeId=${storeId}`,
+        `http://43.202.3.23:8080/store?storeId=${storeId}`,
         'GET',
         null,
         null,
@@ -94,59 +85,42 @@ function Store() {
     }
   }, [storeId])
 
-  // useEffect(() => {
-  //   if (storeDetail) {
-  //     setStoreInfo(storeDetail)
-  //     setCategoryIcon(getCategoryIcon(storeDetail.category))
-  //   }
-  // }, [storeDetail])
-
-  const getCategoryIcon = (category) => {
-    let categoryIcon
-    switch (category) {
-      case 'bar':
-        categoryIcon =
-          '/static/media/point_22_bar.9075eb533419c775a719b0bba0cae22b.svg'
-        break
-      case 'bakery':
-        categoryIcon =
-          '/static/media/point_22_bakery.a059d87647b55d97dfdec611f01807a0.svg'
-        break
-      case 'cafe':
-        categoryIcon =
-          '/static/media/point_22_cafe.6a9cf6367a1a18793d10f7675a2dd6b1.svg'
-        break
-      case 'fashion':
-        categoryIcon =
-          '/static/media/point_22_fashion.a526b493bbdaff38a71dd4219bf4cea3.svg'
-        break
-      case 'goods':
-        categoryIcon =
-          '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
-        break
-      case 'restaurant':
-        categoryIcon =
-          '/static/media/point_22_restaurant.5c427a0dc4858890f49698fec4732628.svg'
-        break
-      default:
-        categoryIcon =
-          '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
+  useEffect(() => {
+    if (storeDetail) {
+      setStoreInfo(storeDetail)
+      let categoryIcon
+      switch (storeDetail.category) {
+        case 'bar':
+          categoryIcon =
+            '/static/media/point_22_bar.9075eb533419c775a719b0bba0cae22b.svg'
+          break
+        case 'bakery':
+          categoryIcon =
+            '/static/media/point_22_bakery.a059d87647b55d97dfdec611f01807a0.svg'
+          break
+        case 'cafe':
+          categoryIcon =
+            '/static/media/point_22_cafe.6a9cf6367a1a18793d10f7675a2dd6b1.svg'
+          break
+        case 'fashion':
+          categoryIcon =
+            '/static/media/point_22_fashion.a526b493bbdaff38a71dd4219bf4cea3.svg'
+          break
+        case 'goods':
+          categoryIcon =
+            '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
+          break
+        case 'restaurant':
+          categoryIcon =
+            '/static/media/point_22_restaurant.5c427a0dc4858890f49698fec4732628.svg'
+          break
+        default:
+          categoryIcon =
+            '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
+      }
+      setCategoryIcon(categoryIcon)
     }
-    return categoryIcon
-    // setStoreIcon(categoryIcon)
-  }
-
-  const redirectUrl = (urlLink) => {
-    ReactGA.event({
-      name: urlLink,
-      id: storeId,
-      page: 'Store',
-      category: 'AddressMapUrlRedirect',
-      action: 'Click',
-      label: '지도로 길찾기',
-    })
-    window.location.href = urlLink
-  }
+  }, [storeDetail])
 
   //복사 기능
   const copyToClipboard = (text) => {
@@ -175,6 +149,8 @@ function Store() {
   }
 
   return (
+    // {loading && <div>Loading...</div>}
+    // {error && <div>Error: {error.message}</div>}
     <>
       <style>{imageSlideStyle}</style>
       {storeInfo && (
@@ -225,17 +201,6 @@ function Store() {
                       )
                     }
                   />
-                </Col>
-              </Row>
-              <Row className="mt-1">
-                <Col xs={1} className="ps-0">
-                  <IoMapOutline />
-                </Col>
-                <Col
-                  className="ps-0"
-                  onClick={() => redirectUrl(`${storeInfo.map_link}`)}
-                >
-                  <p class="text-primary">지도로 길찾기</p>
                 </Col>
               </Row>
             </InfoRow>
