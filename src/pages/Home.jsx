@@ -71,8 +71,7 @@ function Home() {
   // 가게 목록 불러오기 Fetch All Stores Info API
   useEffect(() => {
     ReactGA.initialize('G-P4SP6NH4KM')
-    // fetchData('http://43.202.3.23:8080/store/list', 'GET', null, null)
-    fetchData('https://jsonplaceholder.typicode.com/todos', 'GET', null, null)
+    fetchData('https://api.portnumber.site/store/list', 'GET', null, null)
   }, [])
 
   // 가게 목록 저장 Save StoreInfoAPI Data
@@ -108,13 +107,12 @@ function Home() {
       label: 'map marker click',
     })
 
-    // getStoreInfo(`http://43.202.3.23:8080/store?storeId=${id}`,'GET',null, null)
-    //   `https://jsonplaceholder.typicode.com/todos/${id}`,
-    //dummy data
-    const storeDetailObject = findStoreDetailById(id)
-    setStoreInfo(storeDetailObject)
-    setStoreIcon(getCategoryIcon(storeDetailObject.category))
-    setShow(true)
+    getStoreInfo(
+      `https://api.portnumber.site/store?storeId=${id}`, //${id} + id,
+      'GET',
+      null,
+      null,
+    )
   }
 
   const redirectUrl = (urlLink) => {

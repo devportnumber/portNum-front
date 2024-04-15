@@ -85,16 +85,12 @@ function Store() {
 
   useEffect(() => {
     if (storeId) {
-      const storeDetailObject = findStoreDetailById(parseInt(storeId))
-      console.log('storeDetailObject-' + JSON.stringify(storeDetailObject))
-      setStoreInfo(storeDetailObject)
-      setCategoryIcon(getCategoryIcon(storeDetailObject.category))
-      // fetchData(
-      //   // `http://43.202.3.23:8080/store?storeId=${storeId}`,
-      //   'GET',
-      //   null,
-      //   null,
-      // )
+      fetchData(
+        `https://api.portnumber.site/store?storeId=${storeId}`,
+        'GET',
+        null,
+        null,
+      )
     }
   }, [storeId])
 
