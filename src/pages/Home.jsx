@@ -115,7 +115,7 @@ function Home() {
     //Dummy Data Stuff
     const storeDetailData = findStoreDetailById(parseInt(id))
     setStoreInfo(storeDetailData)
-    setStoreIcon(storeDetailData.category)
+    setStoreIcon(storeDetailData?.category)
     setShow(true)
   }
 
