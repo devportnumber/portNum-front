@@ -141,7 +141,7 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
             </Row>
             <Row onClick={(e) => e.stopPropagation()}>
               <StyledDescription className="mb-0">
-                {storeInfo.description}
+                {storeInfo.description?.substr(0, 100)}...
               </StyledDescription>
             </Row>
           </Modal.Body>
