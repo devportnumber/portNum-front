@@ -154,7 +154,7 @@ function Store() {
                 <AiTwotoneClockCircle />
                 <p>{storeInfo.time}</p>
               </div>
-              <div className="descriptionBox">{storeInfo.description}</div>
+              <pre className="descriptionBox">{storeInfo.description}</pre>
             </InfoBox>
             <InfoBox>
               <div className="infoRow">
@@ -250,6 +250,7 @@ const InfoBox = styled.div`
     font-size: 14px;
     line-height: 1.7;
     margin: 10px 0;
+    white-space: pre-wrap;
   }
 `
 
