@@ -11,8 +11,6 @@ export const useAxios = () => {
   const fetchData = async (url, method, requestBody, params) => {
     try {
       setLoading(true)
-      let requestHeaders = { 'Content-Type': 'application/json' }
-
       const response = await axios({
         method,
         url,
@@ -20,9 +18,7 @@ export const useAxios = () => {
         params: params,
       })
 
-      // if (response.status === 200) {
       setData(response.data)
-      // }
 
       setLoading(false)
     } catch (error) {

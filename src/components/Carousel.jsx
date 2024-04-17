@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 //store images
+import BackIconImg from '../assets/icons/icon_back.svg'
 import store1Img from '../assets/stores/1.png'
 import store2Img from '../assets/stores/2.png'
 import store3Img from '../assets/stores/3.png'
@@ -21,7 +22,12 @@ import { AiOutlineShareAlt } from 'react-icons/ai'
 // Google Analytics
 import ReactGA from 'react-ga4'
 
+// Utils
+import copyToClipboard from '../utils/copyToClipboard'
+
 function ControlledCarousel({ imageList, storeInfo, storeId }) {
+  const navigate = useNavigate()
+
   const carouselStyle = `
     .carousel-inner {
       position: absolute;
@@ -48,21 +54,6 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
     setIndex(selectedIndex)
   }
 
-  //복사기능
-  const copyToClipboard = () => {
-    const baseUrl = process.env.REACT_APP_BASE_URL
-    const currentUrl = baseUrl + location.pathname
-    const textarea = document.createElement('textarea')
-    textarea.value = currentUrl
-    textarea.style.position = 'absolute'
-    textarea.style.left = '-9999px'
-    document.body.appendChild(textarea)
-    textarea.select()
-    document.execCommand('copy')
-    alert('복사가 완료되었습니다.')
-    document.body.removeChild(textarea)
-  }
-
   //상세 페이지 공유하기
   const shareStoreLink = (storeId, storeName, event) => {
     ReactGA.event({
@@ -73,7 +64,9 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
       action: 'Click',
       label: 'share store link click',
     })
-    copyToClipboard()
+    const baseUrl = process.env.REACT_APP_BASE_URL
+    const currentUrl = baseUrl + location.pathname
+    copyToClipboard(currentUrl)
   }
   return (
     <>
@@ -86,13 +79,22 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
       >
         {imageList.map((image, index) => (
           <StyledCarouselItem key={index}>
-            <StyledImage className="" src={image} />
+            <BackBtn type="button" onClick={() => navigate(-1)}>
+              <img src={BackIconImg} alt="" />
+            </BackBtn>
+            <StyledImage src={image} />
           </StyledCarouselItem>
         ))}
+        {/* <StyledCarouselItem>
+          <BackBtn type="button" onClick={() => navigate(-1)}>
+            <img src={BackIconImg} alt="" />
+          </BackBtn>
+          <StyledImage src={store4Img} />
+        </StyledCarouselItem> */}
       </StyledCarousel>
 
       <StyledCarouselCaption style={{ zIndex: 10 }}>
-        <h2>
+        <h2 className="storeTit">
           <strong>{storeInfo.name} &nbsp;</strong>
           <AiOutlineShareAlt onClick={() => shareStoreLink()} />
         </h2>
@@ -130,6 +132,15 @@ const StyledImage = styled.img`
   filter: grayscale(30%) brightness(60%);
 `
 
+const BackBtn = styled.button`
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  width: 30px;
+  height: 20px;
+  z-index: 10;
+`
+
 const StyledCarouselCaption = styled.div`
   max-width: 500px;
   text-align: left;
@@ -138,4 +149,14 @@ const StyledCarouselCaption = styled.div`
   position: absolute;
   color: #fff;
   z-index: 7;
+  padding: 0;
+  padding-left: 24px;
+
+  .storeTit {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #fff;
+    margin-bottom: 12px;
+  }
 `

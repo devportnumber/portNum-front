@@ -6,13 +6,17 @@ import ReactGA from 'react-ga4'
 
 // Bootstrap
 import { Modal, Button, Container, Row, Col } from 'react-bootstrap'
-import { PiMapPinDuotone } from 'react-icons/pi'
-import {
-  AiTwotoneClockCircle,
-  AiTwotoneCalendar,
-  AiFillCopy,
-  AiOutlineShareAlt,
-} from 'react-icons/ai'
+
+// Utils
+import getCategoryIcon from '../utils/getCategoryIcon'
+
+// Icons
+import ShareIcon from '../assets/icons/modal/icon_blu_18_share.svg'
+import DateIcon from '../assets/icons/modal/icon_gry_18_date.svg'
+import TimeIcon from '../assets/icons/modal/icon_gry_18_time.svg'
+import PinIcon from '../assets/icons/modal/icon_gry_18_pin.svg'
+
+import styled from 'styled-components'
 
 function StoreModal({ show, setShow, storeInfo, storeIcon }) {
   const handleClose = () => setShow(false)
@@ -93,39 +97,38 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
             onClick={() => handleClick(storeInfo.id, storeInfo.name)}
             className="px-4"
           >
-            <Row className="mb-1">
-              <Col xs={1} className="pe-0">
-                <PiMapPinDuotone />
+            <Row className="mb-2 d-flex align-items-center">
+              <Col xs={1} className="pe-0 d-flex align-items-center">
+                <IconImg src={getCategoryIcon(storeInfo.category)} />
               </Col>
-              <Col className="">
-                <h5>
-                  <strong>
-                    {storeInfo.name}
-                    <AiOutlineShareAlt
-                      onClick={(event) =>
-                        shareModalLink(storeInfo.id, storeInfo.name, event)
-                      }
-                    />
-                  </strong>
-                </h5>
+              <Col className="d-flex align-items-center">
+                <StyledName>{storeInfo.name}</StyledName>
+              </Col>
+              <Col xs={2} className="pe-0 d-flex align-items-center">
+                <ShareIconImg
+                  src={ShareIcon}
+                  onClick={(event) =>
+                    shareModalLink(storeInfo.id, storeInfo.name, event)
+                  }
+                />
               </Col>
             </Row>
             <Row className="mb-0">
-              <Row className="pb-1">
-                <Col xs={1} className="pe-0">
-                  <AiTwotoneCalendar />
+              <Row className="pb-1 d-flex align-items-center">
+                <Col xs={1} className="pe-0 d-flex align-items-center">
+                  <IconImg src={DateIcon} />
                 </Col>
-                <Col className="">{storeInfo.dates}</Col>
+                <Col>{storeInfo.dates}</Col>
               </Row>
-              <Row className="mb-4">
-                <Col xs={1} className="pe-0">
-                  <AiTwotoneClockCircle />
+              <Row className="mb-3 d-flex align-items-center">
+                <Col xs={1} className="pe-0 d-flex align-items-center">
+                  <IconImg src={TimeIcon} />
                 </Col>
-                <Col className="">{storeInfo.time}</Col>
+                <Col>{storeInfo.time}</Col>
               </Row>
             </Row>
-            <Row className="">
-              <p className="mb-2">
+            <Row>
+              <p className="mb-3">
                 {storeInfo.keywords?.map((keyword, index) => (
                   <span
                     key={index}
@@ -136,10 +139,10 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
                 ))}
               </p>
             </Row>
-            <Row>
-              <p className="mb-0">
-                <small>{storeInfo.description}</small>
-              </p>
+            <Row onClick={(e) => e.stopPropagation()}>
+              <StyledDescription className="mb-0">
+                {storeInfo.description?.substr(0, 100)}...
+              </StyledDescription>
             </Row>
           </Modal.Body>
         </Modal>
@@ -149,3 +152,29 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
 }
 
 export default StoreModal
+
+const StyledDescription = styled.pre`
+  line-height: 1.5;
+  font-size: 14px;
+  white-space: pre-wrap;
+`
+const StyledName = styled.div`
+  line-height: 1.5;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+`
+const ShareIconImg = styled.img`
+  height: 24px;
+  border-radius: 30px;
+`
+const IconImg = styled.img`
+  height: 24px;
+  border-radius: 30px;
+`
+const TitleCol = styled(Col)`
+  padding-left: 0;
+  display: flex;
+  align-items: center;
+`

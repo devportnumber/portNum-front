@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams, useNavigate } from 'react-router-dom'
 
 // Google Analytics
 import ReactGA from 'react-ga4'
@@ -18,6 +18,7 @@ import BarIcon from '../assets/icons/maps/point_22_bar.svg'
 import CafeIcon from '../assets/icons/maps/point_22_cafe.svg'
 import GoodsIcon from '../assets/icons/maps/point_22_goods.svg'
 import RestaurantIcon from '../assets/icons/maps/point_22_restaurant.svg'
+import ExhibitionIcon from '../assets/icons/maps/point_22_exhibition.svg'
 
 //bootstrap
 import { Row, Col } from 'react-bootstrap'
@@ -30,6 +31,14 @@ import { PiMapPinDuotone } from 'react-icons/pi'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
 
 import styled from 'styled-components'
+
+// Data
+import * as constantsData from '../assets/data/Data'
+
+// Utils
+import getCategoryIcon from '../utils/getCategoryIcon'
+import copyToClipboard from '../utils/copyToClipboard'
+import findStoreDetailById from '../utils/findStoreDetail'
 
 const imageSlideStyle = `
 div.scroll-container {
@@ -53,6 +62,7 @@ function Store() {
   const [categoryIcon, setCategoryIcon] = useState('')
 
   const location = useLocation()
+  const navigate = useNavigate()
   const { storeIdParam } = useParams()
 
   useEffect(() => {
@@ -65,7 +75,7 @@ function Store() {
         setStoreInfo(storeInfoState)
       }
       if (storeIcon) {
-        setCategoryIcon(storeIcon)
+        setCategoryIcon(getCategoryIcon(storeIcon))
       }
     } else {
       if (storeIdParam) {
@@ -76,64 +86,26 @@ function Store() {
 
   useEffect(() => {
     if (storeId) {
-      fetchData(
-        `https://api.portnumber.site/store?storeId=${storeId}`,
-        'GET',
-        null,
-        null,
-      )
+      // fetchData(
+      //   `http://43.202.3.23:8080/store?storeId=${storeId}`,
+      //   'GET',
+      //   null,
+      //   null,
+      // )
+
+      //dummy data stuff
+      const storeDetailData = findStoreDetailById(parseInt(storeId))
+      setStoreInfo(storeDetailData)
+      setCategoryIcon(getCategoryIcon(storeDetailData.category))
     }
   }, [storeId])
 
-  useEffect(() => {
-    if (storeDetail) {
-      setStoreInfo(storeDetail)
-      let categoryIcon
-      switch (storeDetail.category) {
-        case 'bar':
-          categoryIcon =
-            '/static/media/point_22_bar.9075eb533419c775a719b0bba0cae22b.svg'
-          break
-        case 'bakery':
-          categoryIcon =
-            '/static/media/point_22_bakery.a059d87647b55d97dfdec611f01807a0.svg'
-          break
-        case 'cafe':
-          categoryIcon =
-            '/static/media/point_22_cafe.6a9cf6367a1a18793d10f7675a2dd6b1.svg'
-          break
-        case 'fashion':
-          categoryIcon =
-            '/static/media/point_22_fashion.a526b493bbdaff38a71dd4219bf4cea3.svg'
-          break
-        case 'goods':
-          categoryIcon =
-            '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
-          break
-        case 'restaurant':
-          categoryIcon =
-            '/static/media/point_22_restaurant.5c427a0dc4858890f49698fec4732628.svg'
-          break
-        default:
-          categoryIcon =
-            '/static/media/point_22_goods.8f2c42dd76825416e6f1e949d4174b24.svg'
-      }
-      setCategoryIcon(categoryIcon)
-    }
-  }, [storeDetail])
-
-  //복사 기능
-  const copyToClipboard = (text) => {
-    const textarea = document.createElement('textarea')
-    textarea.value = text
-    textarea.style.position = 'absolute'
-    textarea.style.left = '-9999px'
-    document.body.appendChild(textarea)
-    textarea.select()
-    document.execCommand('copy')
-    alert('복사가 완료되었습니다.')
-    document.body.removeChild(textarea)
-  }
+  // useEffect(() => {
+  //   if (storeDetail) {
+  //     setStoreInfo(storeDetail)
+  //     setCategoryIcon(getCategoryIcon(storeDetail.category))
+  //   }
+  // }, [storeDetail])
 
   //주소 복사하기
   const copyAddress = (address, storeId, storeName) => {
@@ -156,14 +128,17 @@ function Store() {
       {storeInfo && (
         <Container>
           <Content>
-            <IconContainer>
+            {/* <IconContainer>
               <StyledPrevIcon
                 size="2em"
                 color="white"
                 border="black"
                 onClick={() => window.history.back()}
               />
-            </IconContainer>
+              <BackBtn type="button" onClick={() => navigate(-1)}>
+                <img src={BakeryIcon} alt="" />
+              </BackBtn>
+            </IconContainer> */}
             <CarouselRow>
               <ControlledCarousel
                 imageList={storeInfo.images}
@@ -171,7 +146,32 @@ function Store() {
                 storeId={storeInfo.id}
               />
             </CarouselRow>
-            <InfoRow className="px-3 pt-3 pb-0">
+            <InfoBox borderline={true}>
+              <div className="infoRow">
+                <AiTwotoneCalendar />
+                <p>{storeInfo.dates}</p>
+              </div>
+              <div className="infoRow">
+                <AiTwotoneClockCircle />
+                <p>{storeInfo.time}</p>
+              </div>
+              <div className="descriptionBox">{storeInfo.description}</div>
+            </InfoBox>
+            <InfoBox>
+              <div className="infoRow">
+                <PiMapPinDuotone />
+                <p> {storeInfo.address + storeInfo.address_detail}</p>
+                <AiFillCopy
+                  onClick={() =>
+                    copyAddress(
+                      `${storeInfo.address + storeInfo.address_detail}`,
+                      `${storeInfo.name}`,
+                    )
+                  }
+                />
+              </div>
+            </InfoBox>
+            {/* <InfoRow className="px-3 pt-3 pb-0">
               <Row className="mb-2 pb-2 border-bottom">
                 <Row className="pb-1">
                   <Col xs={1} className="ps-0">
@@ -203,7 +203,7 @@ function Store() {
                   />
                 </Col>
               </Row>
-            </InfoRow>
+            </InfoRow> */}
             {categoryIcon && (
               <MapRow className="pb-4">
                 <EventMap
@@ -228,11 +228,37 @@ const CarouselRow = styled(Row)`
   width: 100%;
   height: 70vh;
 `
-const InfoRow = styled(Row)`
+const InfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
   text-align: left;
-  font-size: 15px;
+  font-size: 14px;
   width: 100%;
+  padding: 24px 20px;
+  ${(props) =>
+    props.borderline &&
+    `
+    border-bottom: 1px solid #dbdbdb;
+  `}
+
+  .infoRow {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .descriptionBox {
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 10px 0;
+  }
 `
+
+// const InfoRow = styled(Row)`
+//   text-align: left;
+//   font-size: 15px;
+//   width: 100%;
+// `
 const MapRow = styled(Row)`
   display: flex;
   justify-content: center;
@@ -240,7 +266,7 @@ const MapRow = styled(Row)`
   width: 100%;
   font-size: 12px;
   height: 300px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 `
 const Container = styled.div`
   max-width: 500px;
@@ -256,7 +282,16 @@ const Content = styled.div`
   text-align: center;
 `
 const IconContainer = styled.div`
-  z-index: 10;
+  /* z-index: 100; */
+  /* position: absolute;
+  top: 0;
+  left: 0; */
+`
+
+const BackBtn = styled.button`
+  /* position: absolute;
+  top: 0;
+  left: 0; */
 `
 
 const StyledPrevIcon = styled(MdKeyboardArrowLeft)`
