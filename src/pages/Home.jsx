@@ -88,6 +88,7 @@ function Home() {
   // 가게 정보 불러오기 Fetch Store Info API
   useEffect(() => {
     if (getStoreInfoData) {
+      console.log('getStoreInfoData-' + JSON.stringify(getStoreInfoData))
       setStoreInfo(getStoreInfoData)
       setStoreIcon(getCategoryIcon(getStoreInfoData.category))
       setShow(true)
@@ -105,18 +106,18 @@ function Home() {
       label: 'map marker click',
     })
 
-    //   getStoreInfo(
-    //     `http://43.202.3.23:8080/store?storeId=${id}`, //${id} + id,
-    //     'GET',
-    //     null,
-    //     null,
-    //   )
+    getStoreInfo(
+      `https://api.portnumber.site/store?storeId=${id}`,
+      'GET',
+      null,
+      null,
+    )
 
     //Dummy Data Stuff
-    const storeDetailData = findStoreDetailById(parseInt(id))
-    setStoreInfo(storeDetailData)
-    setStoreIcon(storeDetailData?.category)
-    setShow(true)
+    // const storeDetailData = findStoreDetailById(parseInt(id))
+    // setStoreInfo(storeDetailData)
+    // setStoreIcon(storeDetailData?.category)
+    // setShow(true)
   }
 
   const redirectUrl = (urlLink) => {

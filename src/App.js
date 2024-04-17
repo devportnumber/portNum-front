@@ -22,7 +22,7 @@ function App() {
           <Route path="/" element={<Navigate to="/paulseee" replace />} />
           <Route path="/paulseee" element={<LazyHome />} />
           <Route path="/paulseee/:storeIdParam" element={<LazyStore />} />
-          <Route path="/*" element={<LazyHome />} />
+          <Route path="/*" element={<Navigate to="/paulseee" replace />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -105,7 +105,7 @@ function StoreModal({ show, setShow, storeInfo, storeIcon }) {
                 <StyledName>{storeInfo.name}</StyledName>
               </Col>
               <Col xs={2} className="pe-0 d-flex align-items-center">
-                <ShareIconImg
+                <IconImg
                   src={ShareIcon}
                   onClick={(event) =>
                     shareModalLink(storeInfo.id, storeInfo.name, event)
@@ -165,13 +165,9 @@ const StyledName = styled.div`
   align-items: center;
   font-size: 20px;
 `
-const ShareIconImg = styled.img`
-  height: 24px;
-  border-radius: 30px;
-`
+
 const IconImg = styled.img`
   height: 24px;
-  border-radius: 30px;
 `
 const TitleCol = styled(Col)`
   padding-left: 0;
