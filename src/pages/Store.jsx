@@ -86,26 +86,25 @@ function Store() {
 
   useEffect(() => {
     if (storeId) {
-      // fetchData(
-      //   `http://43.202.3.23:8080/store?storeId=${storeId}`,
-      //   'GET',
-      //   null,
-      //   null,
-      // )
-
+      fetchData(
+        `https://api.portnumber.site/store?storeId=${storeId}`,
+        'GET',
+        null,
+        null,
+      )
       //dummy data stuff
-      const storeDetailData = findStoreDetailById(parseInt(storeId))
-      setStoreInfo(storeDetailData)
-      setCategoryIcon(getCategoryIcon(storeDetailData.category))
+      // const storeDetailData = findStoreDetailById(parseInt(storeId))
+      // setStoreInfo(storeDetailData)
+      // setCategoryIcon(getCategoryIcon(storeDetailData.category))
     }
   }, [storeId])
 
-  // useEffect(() => {
-  //   if (storeDetail) {
-  //     setStoreInfo(storeDetail)
-  //     setCategoryIcon(getCategoryIcon(storeDetail.category))
-  //   }
-  // }, [storeDetail])
+  useEffect(() => {
+    if (storeDetail) {
+      setStoreInfo(storeDetail)
+      setCategoryIcon(getCategoryIcon(storeDetail.category))
+    }
+  }, [storeDetail])
 
   //주소 복사하기
   const copyAddress = (address, storeId, storeName) => {
