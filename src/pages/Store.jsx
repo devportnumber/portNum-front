@@ -20,6 +20,12 @@ import GoodsIcon from '../assets/icons/maps/point_22_goods.svg'
 import RestaurantIcon from '../assets/icons/maps/point_22_restaurant.svg'
 import ExhibitionIcon from '../assets/icons/maps/point_22_exhibition.svg'
 
+import ShareIcon from '../assets/icons/modal/icon_blu_18_share.svg'
+import DateIcon from '../assets/icons/modal/icon_gry_18_date.svg'
+import TimeIcon from '../assets/icons/modal/icon_gry_18_time.svg'
+import CopyIcon from '../assets/icons/modal/icon_gry_18_copy.svg'
+import PinIcon from '../assets/icons/modal/icon_blk_18_pin.svg'
+
 //bootstrap
 import { Row, Col } from 'react-bootstrap'
 import {
@@ -75,7 +81,8 @@ function Store() {
         setStoreInfo(storeInfoState)
       }
       if (storeIcon) {
-        setCategoryIcon(getCategoryIcon(storeIcon))
+        setCategoryIcon(storeIcon)
+        // setCategoryIcon(getCategoryIcon(storeIcon))
       }
     } else {
       if (storeIdParam) {
@@ -86,26 +93,31 @@ function Store() {
 
   useEffect(() => {
     if (storeId) {
-      // fetchData(
-      //   `http://43.202.3.23:8080/store?storeId=${storeId}`,
-      //   'GET',
-      //   null,
-      //   null,
-      // )
-
+      fetchData(
+        `https://api.portnumber.site/store?storeId=${storeId}`,
+        'GET',
+        null,
+        null,
+      )
       //dummy data stuff
-      const storeDetailData = findStoreDetailById(parseInt(storeId))
-      setStoreInfo(storeDetailData)
-      setCategoryIcon(getCategoryIcon(storeDetailData.category))
+      // const storeDetailData = findStoreDetailById(parseInt(storeId))
+      // setStoreInfo(storeDetailData)
+      // setCategoryIcon(getCategoryIcon(storeDetailData.category))
     }
   }, [storeId])
 
-  // useEffect(() => {
-  //   if (storeDetail) {
-  //     setStoreInfo(storeDetail)
-  //     setCategoryIcon(getCategoryIcon(storeDetail.category))
-  //   }
-  // }, [storeDetail])
+  useEffect(() => {
+    if (storeDetail) {
+      setStoreInfo(storeDetail)
+      setCategoryIcon(getCategoryIcon(storeDetail.category))
+    }
+  }, [storeDetail])
+
+  useEffect(() => {
+    if (categoryIcon) {
+      console.log(categoryIcon)
+    }
+  }, [categoryIcon])
 
   //주소 복사하기
   const copyAddress = (address, storeId, storeName) => {
@@ -148,20 +160,21 @@ function Store() {
             </CarouselRow>
             <InfoBox borderline={true}>
               <div className="infoRow">
-                <AiTwotoneCalendar />
+                <IconImg src={DateIcon} />
                 <p>{storeInfo.dates}</p>
               </div>
               <div className="infoRow">
-                <AiTwotoneClockCircle />
+                <IconImg src={TimeIcon} />
                 <p>{storeInfo.time}</p>
               </div>
-              <div className="descriptionBox">{storeInfo.description}</div>
+              <pre className="descriptionBox">{storeInfo.description}</pre>
             </InfoBox>
             <InfoBox>
-              <div className="infoRow">
-                <PiMapPinDuotone />
+              <div className="infoRow" style={{ marginBottom: '0px' }}>
+                <IconImg src={PinIcon} />
                 <p> {storeInfo.address + storeInfo.address_detail}</p>
-                <AiFillCopy
+                <IconImg
+                  src={CopyIcon}
                   onClick={() =>
                     copyAddress(
                       `${storeInfo.address + storeInfo.address_detail}`,
@@ -171,39 +184,7 @@ function Store() {
                 />
               </div>
             </InfoBox>
-            {/* <InfoRow className="px-3 pt-3 pb-0">
-              <Row className="mb-2 pb-2 border-bottom">
-                <Row className="pb-1">
-                  <Col xs={1} className="ps-0">
-                    <AiTwotoneCalendar />
-                  </Col>
-                  <Col className="ps-0">{storeInfo.dates}</Col>
-                </Row>
-                <Row className="pb-3">
-                  <Col xs={1} className="ps-0">
-                    <AiTwotoneClockCircle />
-                  </Col>
-                  <Col className="ps-0">{storeInfo.time}</Col>
-                </Row>
-                <Row>{storeInfo.description}</Row>
-              </Row>
-              <Row className="mt-3">
-                <Col xs={1} className="ps-0">
-                  <PiMapPinDuotone />
-                </Col>
-                <Col className="ps-0">
-                  {storeInfo.address + storeInfo.address_detail} &nbsp;
-                  <AiFillCopy
-                    onClick={() =>
-                      copyAddress(
-                        `${storeInfo.address + storeInfo.address_detail}`,
-                        `${storeInfo.name}`,
-                      )
-                    }
-                  />
-                </Col>
-              </Row>
-            </InfoRow> */}
+
             {categoryIcon && (
               <MapRow className="pb-4">
                 <EventMap
@@ -234,7 +215,7 @@ const InfoBox = styled.div`
   text-align: left;
   font-size: 14px;
   width: 100%;
-  padding: 24px 20px;
+  padding: 20px 24px;
   ${(props) =>
     props.borderline &&
     `
@@ -243,6 +224,7 @@ const InfoBox = styled.div`
 
   .infoRow {
     display: flex;
+    align-items: center;
     flex-direction: row;
     gap: 6px;
     margin-bottom: 10px;
@@ -251,6 +233,7 @@ const InfoBox = styled.div`
     font-size: 14px;
     line-height: 1.7;
     margin: 10px 0;
+    white-space: pre-wrap;
   }
 `
 
@@ -298,4 +281,7 @@ const StyledPrevIcon = styled(MdKeyboardArrowLeft)`
   position: absolute;
   top: 0;
   left: 0;
+`
+const IconImg = styled.img`
+  height: 24px;
 `

@@ -18,12 +18,16 @@ import store10Img from '../assets/stores/10.png'
 // Bootstrap
 import Carousel from 'react-bootstrap/Carousel'
 import { AiOutlineShareAlt } from 'react-icons/ai'
+import { Row, Col } from 'react-bootstrap'
 
 // Google Analytics
 import ReactGA from 'react-ga4'
 
 // Utils
 import copyToClipboard from '../utils/copyToClipboard'
+
+// Icons
+import ShareIcon from '../assets/icons/modal/icon_blu_18_share.svg'
 
 function ControlledCarousel({ imageList, storeInfo, storeId }) {
   const navigate = useNavigate()
@@ -94,10 +98,15 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
       </StyledCarousel>
 
       <StyledCarouselCaption style={{ zIndex: 10 }}>
-        <h2 className="storeTit">
-          <strong>{storeInfo.name} &nbsp;</strong>
-          <AiOutlineShareAlt onClick={() => shareStoreLink()} />
-        </h2>
+        <Row className="storeTit">
+          <Col xs={10}>
+            {/* <strong> &nbsp;</strong> */}
+            {storeInfo.name}
+          </Col>
+          <Col xs={2}>
+            <IconImg src={ShareIcon} onClick={() => shareStoreLink()} />
+          </Col>
+        </Row>
 
         <p>
           {storeInfo.keywords.map((keyword, index) => (
@@ -129,7 +138,7 @@ const StyledImage = styled.img`
   height: 100%;
   width: 100%;
   z-index: 1;
-  filter: grayscale(30%) brightness(60%);
+  filter: grayscale(20%) brightness(65%);
 `
 
 const BackBtn = styled.button`
@@ -142,15 +151,16 @@ const BackBtn = styled.button`
 `
 
 const StyledCarouselCaption = styled.div`
+  z-index: 5;
   max-width: 500px;
   text-align: left;
-  top: 55%;
+  // top: 55%;
   bottom: 33%;
   position: absolute;
   color: #fff;
   z-index: 7;
   padding: 0;
-  padding-left: 24px;
+  padding: 0px 24px;
 
   .storeTit {
     font-size: 24px;
@@ -158,5 +168,12 @@ const StyledCarouselCaption = styled.div`
     line-height: 1.5;
     color: #fff;
     margin-bottom: 12px;
+    // display: flex;
+    align-items: center;
   }
 `
+const IconImg = styled.img`
+  height: 24px;
+`
+
+// filter: brightness(.4);
