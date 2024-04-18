@@ -24,7 +24,8 @@ import ShareIcon from '../assets/icons/modal/icon_blu_18_share.svg'
 import DateIcon from '../assets/icons/modal/icon_gry_18_date.svg'
 import TimeIcon from '../assets/icons/modal/icon_gry_18_time.svg'
 import CopyIcon from '../assets/icons/modal/icon_gry_18_copy.svg'
-import PinIcon from '../assets/icons/modal/icon_blk_18_pin.svg'
+import PinIcon from '../assets/icons/modal/icon_gry_18_pin.svg'
+import MapIcon from '../assets/icons/modal/icon_gry_18_map.svg'
 
 //bootstrap
 import { Row, Col } from 'react-bootstrap'
@@ -132,6 +133,18 @@ function Store() {
     copyToClipboard(address)
   }
 
+  const redirectUrl = (urlLink) => {
+    ReactGA.event({
+      name: urlLink,
+      id: storeId,
+      page: 'Store',
+      category: 'AddressMapUrlRedirect',
+      action: 'Click',
+      label: '지도로 길찾기',
+    })
+    window.location.href = urlLink
+  }
+
   return (
     // {loading && <div>Loading...</div>}
     // {error && <div>Error: {error.message}</div>}
@@ -170,7 +183,7 @@ function Store() {
               <pre className="descriptionBox">{storeInfo.description}</pre>
             </InfoBox>
             <InfoBox>
-              <div className="infoRow" style={{ marginBottom: '0px' }}>
+              <div className="infoRow">
                 <IconImg src={PinIcon} />
                 <p> {storeInfo.address + storeInfo.address_detail}</p>
                 <IconImg
@@ -182,6 +195,14 @@ function Store() {
                     )
                   }
                 />
+              </div>
+              <div className="infoRow" style={{ marginBottom: '0px' }}>
+                <IconImg src={MapIcon} />
+                <StyledMapLink
+                  onClick={() => redirectUrl(`${storeInfo.map_link}`)}
+                >
+                  지도로 길찾기
+                </StyledMapLink>
               </div>
             </InfoBox>
 
@@ -264,17 +285,10 @@ const Content = styled.div`
   flex-direction: column;
   text-align: center;
 `
-const IconContainer = styled.div`
-  /* z-index: 100; */
-  /* position: absolute;
-  top: 0;
-  left: 0; */
-`
 
-const BackBtn = styled.button`
-  /* position: absolute;
-  top: 0;
-  left: 0; */
+const StyledMapLink = styled.p`
+  color: #0971f8;
+  text-decoration: underline;
 `
 
 const StyledPrevIcon = styled(MdKeyboardArrowLeft)`
