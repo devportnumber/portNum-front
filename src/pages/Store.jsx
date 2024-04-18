@@ -199,7 +199,7 @@ function Store() {
               <div className="infoRow" style={{ marginBottom: '0px' }}>
                 <IconImg src={MapIcon} />
                 <StyledMapLink
-                  onClick={() => redirectUrl(`${storeInfo.map_link}`)}
+                  onClick={() => redirectUrl(`${storeInfo.mapUrl}`)}
                 >
                   지도로 길찾기
                 </StyledMapLink>
