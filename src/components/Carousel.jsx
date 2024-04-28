@@ -83,19 +83,15 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
       >
         {imageList.map((image, index) => (
           <StyledCarouselItem key={index}>
-            <BackBtn type="button" onClick={() => navigate(-1)}>
-              <img src={BackIconImg} alt="" />
-            </BackBtn>
             <StyledImage src={image} />
           </StyledCarouselItem>
         ))}
-        {/* <StyledCarouselItem>
-          <BackBtn type="button" onClick={() => navigate(-1)}>
-            <img src={BackIconImg} alt="" />
-          </BackBtn>
-          <StyledImage src={store4Img} />
-        </StyledCarouselItem> */}
       </StyledCarousel>
+      <BackIconImgStyle
+        src={BackIconImg}
+        alt=""
+        onClick={() => navigate(-1)}
+      ></BackIconImgStyle>
 
       <StyledCarouselCaption style={{ zIndex: 10 }}>
         <Row className="storeTit">
@@ -145,8 +141,6 @@ const BackBtn = styled.button`
   position: absolute;
   top: 30px;
   left: 20px;
-  width: 30px;
-  height: 20px;
   z-index: 10;
 `
 
@@ -176,4 +170,13 @@ const IconImg = styled.img`
   height: 24px;
 `
 
+const BackIconImgStyle = styled.img`
+  height: 24px;
+  width: 24px;
+  padding: 0px;
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  z-index: 10;
+`
 // filter: brightness(.4);

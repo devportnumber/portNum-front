@@ -176,7 +176,7 @@ function Store() {
                 <IconImg src={DateIcon} />
                 <p>{storeInfo.dates}</p>
               </div>
-              <div className="infoRow">
+              <div className="infoRow" style={{ marginBottom: '20px' }}>
                 <IconImg src={TimeIcon} />
                 <p>{storeInfo.time}</p>
               </div>
@@ -253,7 +253,6 @@ const InfoBox = styled.div`
   .descriptionBox {
     font-size: 14px;
     line-height: 1.7;
-    margin: 10px 0;
     white-space: pre-wrap;
   }
 `
