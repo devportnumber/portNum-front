@@ -40,7 +40,7 @@ function EventMap({ latitude, longitude, categoryIcon }) {
 export default EventMap
 
 const StyledMapDiv = styled(MapDiv)`
-  height: 300px;
+  height: 250px;
   width: 100%;
   align-self: center;
 `
