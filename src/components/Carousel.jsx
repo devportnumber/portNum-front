@@ -83,7 +83,11 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
       >
         {imageList.map((image, index) => (
           <StyledCarouselItem key={index}>
-            <StyledImage src={image} />
+            {/* <ImageWrapper> */}
+            <StyledImage>
+              <img src={image} />
+            </StyledImage>
+            {/* </ImageWrapper> */}
           </StyledCarouselItem>
         ))}
       </StyledCarousel>
@@ -129,12 +133,39 @@ const StyledCarouselItem = styled(Carousel.Item)`
   height: 100%;
 `
 
-const StyledImage = styled.img`
+const ImageWrapper = styled.div`
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+`
+
+const StyledImage = styled.div`
   position: relative;
-  height: 100%;
   width: 100%;
-  z-index: 1;
-  filter: grayscale(20%) brightness(65%);
+  height: 100%;
+  overflow: hidden;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      360deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    z-index: 1;
+  }
+  img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
 `
 
 const BackBtn = styled.button`
@@ -148,7 +179,6 @@ const StyledCarouselCaption = styled.div`
   z-index: 5;
   max-width: 500px;
   text-align: left;
-  // top: 55%;
   bottom: 33%;
   position: absolute;
   color: #fff;
@@ -162,7 +192,6 @@ const StyledCarouselCaption = styled.div`
     line-height: 1.5;
     color: #fff;
     margin-bottom: 12px;
-    // display: flex;
     align-items: center;
   }
 `
@@ -179,4 +208,3 @@ const BackIconImgStyle = styled.img`
   left: 20px;
   z-index: 10;
 `
-// filter: brightness(.4);

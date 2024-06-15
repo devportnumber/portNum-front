@@ -27,16 +27,17 @@ import Logo from '../assets/icons/logo/paulseee_logo.png'
 
 // Components
 import StoreModal from '../components/Modal'
+import HomeMap from '../components/HomeMap'
 
 // Hooks
 import { useAxios } from '../hooks/useAxios'
 
 // Data
-import * as constantsData from '../assets/data/Data'
+//import * as constantsData from '../assets/data/Data'
 
 // Utils
 import getCategoryIcon from '../utils/getCategoryIcon'
-import findStoreDetailById from '../utils/findStoreDetail'
+//import findStoreDetailById from '../utils/findStoreDetail'
 
 import styled from 'styled-components'
 
@@ -45,12 +46,12 @@ function Home() {
   const {
     fetchData: getStoreInfo,
     loading: storeLoading,
-    data: getStoreInfoData,
+    data: storeInfoData,
     error: storeInfoError,
   } = useAxios()
 
   const [show, setShow] = useState(false)
-  const [storeInfo, setStoreInfo] = useState({})
+  const [storeInfo, setStoreInfo] = useState()
   const [storeId, setStoreId] = useState('')
   const [storeIcon, setStoreIcon] = useState('')
   const [storeList, setStoreList] = useState()
@@ -79,21 +80,19 @@ function Home() {
   // 가게 목록 저장 Save StoreInfoAPI Data
   useEffect(() => {
     if (data) {
-      //Dummy Data Stuff
-      // setStoreList(constantsData.storeListData)
+      // setStoreList(constantsData.storeListData) **Dummy Data Stuff**
       setStoreList(data)
     }
   }, [data])
 
   // 가게 정보 불러오기 Fetch Store Info API
   useEffect(() => {
-    if (getStoreInfoData) {
-      console.log('getStoreInfoData-' + JSON.stringify(getStoreInfoData))
-      setStoreInfo(getStoreInfoData)
-      setStoreIcon(getCategoryIcon(getStoreInfoData.category))
+    if (storeInfoData) {
+      setStoreInfo(storeInfoData)
+      setStoreIcon(getCategoryIcon(storeInfoData.category))
       setShow(true)
     }
-  }, [getStoreInfoData])
+  }, [storeInfoData])
 
   // 모달 뛰우기 Show Store Modal
   const handleShow = (id, name, category) => {
@@ -113,7 +112,7 @@ function Home() {
       null,
     )
 
-    //Dummy Data Stuff
+    //**Dummy Data Stuff**
     // const storeDetailData = findStoreDetailById(parseInt(id))
     // setStoreInfo(storeDetailData)
     // setStoreIcon(storeDetailData?.category)
@@ -122,43 +121,6 @@ function Home() {
 
   const redirectUrl = (urlLink) => {
     window.location.href = urlLink
-  }
-
-  // 위치 지도에 뛰우기 Render Naver Map
-  function MyMap({ storeList, setStoreIcon }) {
-    const navermaps = useNavermaps()
-
-    //아이콘
-    const getCustomMarkerIcon = (storeName, category, setStoreIcon) => {
-      return {
-        content: `<img style="height: 24px;" src="${getCategoryIcon(
-          category,
-        )}" /><span class="bubble">${storeName}</span>`,
-        // content: `<img style="height: 24px;" src="${getCategoryIcon(
-        // category,
-        // )}" /><span class="m-1 badge rounded-pill bg-light text-dark me-1 border border-dark ">${storeName}</span>`,
-      }
-    }
-
-    return (
-      <NaverMap
-        defaultCenter={new navermaps.LatLng(37.54183, 127.0563)}
-        defaultZoom={14}
-      >
-        {storeList?.map((store, index) => (
-          <Marker
-            key={index}
-            defaultPosition={
-              new navermaps.LatLng(store.longitude, store.latitude)
-            }
-            onClick={() => {
-              handleShow(store.storeId, store.name, store.category)
-            }}
-            icon={getCustomMarkerIcon(store.name, store.category, setStoreIcon)}
-          />
-        ))}
-      </NaverMap>
-    )
   }
 
   return (
@@ -177,7 +139,7 @@ function Home() {
                   </Col>
                   <MenuCol
                     onClick={() =>
-                      redirectUrl(' https://blog.naver.com/paulssi')
+                      redirectUrl('https://blog.naver.com/paulssi')
                     }
                   >
                     <strong>폴씨 블로그</strong>
@@ -221,7 +183,11 @@ function Home() {
               height: '100vh',
             }}
           >
-            <MyMap storeList={storeList} setStoreIcon={setStoreIcon} />
+            <HomeMap
+              storeListData={storeList}
+              handleShow={handleShow}
+              setStoreIcon={setStoreIcon}
+            />
           </MapDiv>
         </Content>
       </Container>
@@ -292,27 +258,3 @@ const MenuCol = styled(Col)`
   align-items: center;
   font-size: 12px;
 `
-
-// .bubble {
-//   font-size: 12px;
-//   --r: 11px;
-//   --t: 16px;
-//   max-width: 300px;
-//   padding: calc(2 * var(--r) / 5);
-//   -webkit-mask: radial-gradient(var(--t) at var(--_d) 0, #0000 98%, #000 102%)
-//       var(--_d) 100% / calc(100% - var(--r)) var(--t) no-repeat,
-//     conic-gradient(at var(--r) var(--r), #000 75%, #0000 0)
-//       calc(var(--r) / -2) calc(var(--r) / -2) padding-box,
-//     radial-gradient(50% 50%, #000 98%, #0000 101%) 0 0 / var(--r) var(--r)
-//       space padding-box;
-//   background: linear-gradient(135deg, #fe6d00, #1384c5) border-box;
-//   // background: white;
-//   // color: black;
-//   color: #fff;
-// }
-// .left {
-//   --_d: 0%;
-//   border-left: var(--t) solid #0000;
-//   margin-right: var(--t);
-//   place-self: start;
-// }
