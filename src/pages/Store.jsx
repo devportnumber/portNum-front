@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation, useParams, useNavigate } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 // Google Analytics
 import ReactGA from 'react-ga4'
@@ -29,23 +29,19 @@ import MapIcon from '../assets/icons/modal/icon_gry_18_map.svg'
 
 //bootstrap
 import { Row, Col } from 'react-bootstrap'
-import {
-  AiTwotoneClockCircle,
-  AiTwotoneCalendar,
-  AiFillCopy,
-} from 'react-icons/ai'
-import { PiMapPinDuotone } from 'react-icons/pi'
+
+// import { PiMapPinDuotone } from 'react-icons/pi'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
 
 import styled from 'styled-components'
 
 // Data
-import * as constantsData from '../assets/data/Data'
+// import * as constantsData from '../assets/data/Data'
 
 // Utils
 import getCategoryIcon from '../utils/getCategoryIcon'
 import copyToClipboard from '../utils/copyToClipboard'
-import findStoreDetailById from '../utils/findStoreDetail'
+// import findStoreDetailById from '../utils/findStoreDetail'
 
 const imageSlideStyle = `
 div.scroll-container {
@@ -69,7 +65,6 @@ function Store() {
   const [categoryIcon, setCategoryIcon] = useState('')
 
   const location = useLocation()
-  const navigate = useNavigate()
   const { storeIdParam } = useParams()
 
   useEffect(() => {
