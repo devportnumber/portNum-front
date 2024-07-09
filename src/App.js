@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 const LazyHome = lazy(() => import('../src/pages/Home'))
-const LazyAbout = lazy(() => import('../src/pages/About'))
 const LazyStore = lazy(() => import('../src/pages/Store'))
 
 const Container = styled.div`
