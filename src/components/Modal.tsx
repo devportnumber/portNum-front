@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import ReactGA from 'react-ga4'
 
 // Bootstrap
-import { Modal, Button, Container, Row, Col } from 'react-bootstrap'
+import { Modal, Row, Col } from 'react-bootstrap'
 
 // Utils
 import getCategoryIcon from '../utils/getCategoryIcon'
@@ -117,7 +117,7 @@ const StoreModal: React.FC<StoreModalProps> = ({
     //   label: 'share store link click',
     // })
     const linkUrl = `${process.env.REACT_APP_BASE_URL}/${localStorage.getItem(
-      'path'
+      'path',
     )}?id=${storeId}`
 
     copyToClipboard(linkUrl)

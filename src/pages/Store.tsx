@@ -1,29 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 // Google Analytics
-import ReactGA from 'react-ga4'
+// import ReactGA from 'react-ga4'
 
 //hooks
 import { useAxios } from '../hooks/useAxios'
 
 //components
 import ControlledCarousel from '../components/Carousel'
-import EventMap from '../components/EventMap'
+// import EventMap from '../components/EventMap'
 
 // Kakao Map
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
 
 // Icons
-import BakeryIcon from '../assets/icons/maps/point_22_bakery.svg'
-import FashionIcon from '../assets/icons/maps/point_22_fashion.svg'
-import BarIcon from '../assets/icons/maps/point_22_bar.svg'
-import CafeIcon from '../assets/icons/maps/point_22_cafe.svg'
-import GoodsIcon from '../assets/icons/maps/point_22_goods.svg'
-import RestaurantIcon from '../assets/icons/maps/point_22_restaurant.svg'
-import ExhibitionIcon from '../assets/icons/maps/point_22_exhibition.svg'
-
-import ShareIcon from '../assets/icons/modal/icon_blu_18_share.svg'
+// import ShareIcon from '../assets/icons/modal/icon_blu_18_share.svg'
 import DateIcon from '../assets/icons/modal/icon_gry_18_date.svg'
 import TimeIcon from '../assets/icons/modal/icon_gry_18_time.svg'
 import CopyIcon from '../assets/icons/modal/icon_gry_18_copy.svg'
@@ -31,10 +23,10 @@ import PinIcon from '../assets/icons/modal/icon_gry_18_pin.svg'
 import MapIcon from '../assets/icons/modal/icon_gry_18_map.svg'
 
 //bootstrap
-import { Row, Col } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 
 // import { PiMapPinDuotone } from 'react-icons/pi'
-import { MdKeyboardArrowLeft } from 'react-icons/md'
+// import { MdKeyboardArrowLeft } from 'react-icons/md'
 
 import styled from 'styled-components'
 
@@ -46,14 +38,14 @@ import copyToClipboard from '../utils/copyToClipboard'
 // import findStoreDetailById from '../utils/findStoreDetail'
 
 // Icons
-import ICON_CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
-import ICON_JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
-import ICON_KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
-import ICON_WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
+// import ICON_CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
+// import ICON_JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
+// import ICON_KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
+// import ICON_WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
 import ICON_CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
-import ICON_JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
-import ICON_KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
-import ICON_WESTERN_WHT from '../assets/icons/maps/point_22_wst_wht.svg'
+// import ICON_JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
+// import ICON_KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
+// import ICON_WESTERN_WHT from '../assets/icons/maps/point_22_wst_wht.svg'
 
 import { StoreInfo } from './Home'
 
@@ -82,10 +74,10 @@ function Store() {
   //needed data
   const [storeInfo, setStoreInfo] = useState<StoreInfo>()
   const [nickName, setNickName] = useState<string>(
-    localStorage.getItem('nickname') ?? ''
+    localStorage.getItem('nickname') ?? '',
   )
   const [paramId, setParamId] = useState<string>(
-    localStorage.getItem('param') ?? ''
+    localStorage.getItem('param') ?? '',
   )
   //dummy data
   const catImages = [
@@ -98,8 +90,8 @@ function Store() {
 
   const [dummyImages, setDummyImages] = useState<string[]>(catImages)
 
-  const location = useLocation()
-  const { storeIdParam } = useParams()
+  // const location = useLocation()
+  // const { storeIdParam } = useParams()
 
   useEffect(() => {
     // console.log(JSON.stringify('paramId----' + paramId))
@@ -109,10 +101,10 @@ function Store() {
         `https://api.portnumber.site/admin/popup/api/${nickName}/${paramId}`,
         'GET',
         null,
-        null
+        null,
       )
     }
-  }, []) //storeId
+  }, [fetchData, nickName, paramId]) //storeId
 
   useEffect(() => {
     if (storeDetail) {
@@ -187,7 +179,7 @@ function Store() {
                         storeInfo.address.addressDetail
                       }`,
                       storeInfo.popupId,
-                      `${storeInfo.name}`
+                      `${storeInfo.name}`,
                     )
                   }
                 />
@@ -238,12 +230,12 @@ function Store() {
 }
 
 export default Store
-const RelatedPopUpImg = styled(Col)`
-  colspan: 4;
-`
-const RelatedPopUpContainer = styled(Row)`
-  width: 100%;
-`
+// const RelatedPopUpImg = styled(Col)`
+//   colspan: 4;
+// `
+// const RelatedPopUpContainer = styled(Row)`
+//   width: 100%;
+// `
 const CarouselRow = styled(Row)`
   display: flex;
   justify-content: center;
@@ -305,11 +297,11 @@ const StyledMapLink = styled.p`
   text-decoration: underline;
 `
 
-const StyledPrevIcon = styled(MdKeyboardArrowLeft)`
-  position: absolute;
-  top: 0;
-  left: 0;
-`
+// const StyledPrevIcon = styled(MdKeyboardArrowLeft)`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+// `
 const IconImg = styled.img`
   height: 24px;
 `

@@ -11,14 +11,14 @@ import { Row, Col } from 'react-bootstrap'
 import { AiOutlineArrowRight } from 'react-icons/ai'
 
 // Icons
-import ICON_CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
-import ICON_JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
-import ICON_KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
-import ICON_WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
+// import ICON_CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
+// import ICON_JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
+// import ICON_KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
+// import ICON_WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
 import ICON_CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
-import ICON_JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
-import ICON_KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
-import ICON_WESTERN_WHT from '../assets/icons/maps/point_22_wst_wht.svg'
+// import ICON_JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
+// import ICON_KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
+// import ICON_WESTERN_WHT from '../assets/icons/maps/point_22_wst_wht.svg'
 
 // Components
 import StoreModal from '../components/Modal'
@@ -91,7 +91,7 @@ const Home: React.FC = () => {
   const [storeInfo, setStoreInfo] = useState<StoreInfo | undefined>(undefined)
   const [storeId, setStoreId] = useState<string>('')
   const [nickName, setNickName] = useState<string>(
-    localStorage.getItem('nickname') ?? ''
+    localStorage.getItem('nickname') ?? '',
   )
   const [storeIcon, setStoreIcon] = useState<string>('')
 
@@ -117,12 +117,12 @@ const Home: React.FC = () => {
   useEffect(() => {
     ReactGA.initialize('G-P4SP6NH4KM')
     console.log('HOME localStorage nickname-' + nickName)
-    if (nickName != '')
+    if (nickName !== '')
       fetchData(
         `https://api.portnumber.site/admin/popup/api/${nickName}`,
         'GET',
         null,
-        null
+        null,
       )
   }, [])
 
@@ -146,19 +146,20 @@ const Home: React.FC = () => {
   }, [storeInfoData])
 
   // Show Store Modal
-  const handleShow = (id: number, name?: string, category?: string) => {
-    ReactGA.event({
-      category: 'MapClick',
-      action: 'Click',
-      label: 'map marker click',
-      value: id ?? null,
-    })
+  const handleShow = (id: number) => {
+    //, name?: string, category?: string
+    // ReactGA.event({
+    //   category: 'MapClick',
+    //   action: 'Click',
+    //   label: 'map marker click',
+    //   value: id ?? null,
+    // })
 
     getStoreInfo(
       `https://api.portnumber.site/admin/popup/api/${nickName}/${id}`,
       'GET',
       null,
-      null
+      null,
     )
   }
 
@@ -227,7 +228,7 @@ const Home: React.FC = () => {
                     className="customoverlay bubble"
                     onClick={() => {
                       // handleShow(store.popupId, store.name, store.category)
-                      handleShow(1, store.name, ICON_CHINESE_WHT)
+                      handleShow(store.popupId)
                     }}
                   >
                     구의야구공원

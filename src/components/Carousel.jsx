@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 //store images
@@ -7,7 +7,7 @@ import BackIconImg from '../assets/icons/icon_back.svg'
 
 // Bootstrap
 import Carousel from 'react-bootstrap/Carousel'
-import { AiOutlineShareAlt } from 'react-icons/ai'
+// import { AiOutlineShareAlt } from 'react-icons/ai'
 import { Row, Col } from 'react-bootstrap'
 
 // Google Analytics
@@ -45,7 +45,7 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
     }
   `
   const [index, setIndex] = useState(0)
-  var location = useLocation()
+  // var location = useLocation()
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex)
   }
