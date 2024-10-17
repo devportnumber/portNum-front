@@ -20,6 +20,8 @@ import copyToClipboard from '../utils/copyToClipboard'
 import ShareIcon from '../assets/icons/modal/icon_blu_18_share.svg'
 
 function ControlledCarousel({ imageList, storeInfo, storeId }) {
+  // console.log('imageList-' + JSON.stringify(imageList))
+
   const navigate = useNavigate()
 
   const carouselStyle = `
@@ -59,7 +61,8 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
       label: 'share store link click',
     })
     const baseUrl = process.env.REACT_APP_BASE_URL
-    const currentUrl = baseUrl + location.pathname
+    const currentUrl =
+      baseUrl + '/' + localStorage.getItem('path') + '/' + storeId
     copyToClipboard(currentUrl)
   }
   return (
@@ -75,7 +78,7 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
           <StyledCarouselItem key={index}>
             {/* <ImageWrapper> */}
             <StyledImage>
-              <img src={image} />
+              <img src={image.imgUrl} />
             </StyledImage>
             {/* </ImageWrapper> */}
           </StyledCarouselItem>
@@ -94,7 +97,12 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
             {storeInfo.name}
           </Col>
           <Col xs={2}>
-            <IconImg src={ShareIcon} onClick={() => shareStoreLink()} />
+            <IconImg
+              src={ShareIcon}
+              onClick={() =>
+                shareStoreLink(storeInfo.popupId, storeInfo.name, Event)
+              }
+            />
           </Col>
         </Row>
 

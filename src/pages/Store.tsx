@@ -11,6 +11,9 @@ import { useAxios } from '../hooks/useAxios'
 import ControlledCarousel from '../components/Carousel'
 import EventMap from '../components/EventMap'
 
+// Kakao Map
+import { Map, MapMarker } from 'react-kakao-maps-sdk'
+
 // Icons
 import BakeryIcon from '../assets/icons/maps/point_22_bakery.svg'
 import FashionIcon from '../assets/icons/maps/point_22_fashion.svg'
@@ -39,9 +42,20 @@ import styled from 'styled-components'
 // import * as constantsData from '../assets/data/Data'
 
 // Utils
-import getCategoryIcon from '../utils/getCategoryIcon'
 import copyToClipboard from '../utils/copyToClipboard'
 // import findStoreDetailById from '../utils/findStoreDetail'
+
+// Icons
+import ICON_CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
+import ICON_JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
+import ICON_KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
+import ICON_WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
+import ICON_CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
+import ICON_JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
+import ICON_KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
+import ICON_WESTERN_WHT from '../assets/icons/maps/point_22_wst_wht.svg'
+
+import { StoreInfo } from './Home'
 
 const imageSlideStyle = `
 div.scroll-container {
@@ -54,89 +68,81 @@ div.scroll-container {
 div.scroll-container img {
   padding: 10px;
 }
+
+.cover-img {
+height: 200px;
+border: 2px solid black;
+border-radius: 18px;
+
 `
 
 function Store() {
   const { fetchData, loading, data: storeDetail, error } = useAxios()
 
   //needed data
-  const [storeInfo, setStoreInfo] = useState()
-  const [storeId, setStoreId] = useState('')
-  const [categoryIcon, setCategoryIcon] = useState('')
+  const [storeInfo, setStoreInfo] = useState<StoreInfo>()
+  const [nickName, setNickName] = useState<string>(
+    localStorage.getItem('nickname') ?? ''
+  )
+  const [paramId, setParamId] = useState<string>(
+    localStorage.getItem('param') ?? ''
+  )
+  //dummy data
+  const catImages = [
+    'https://images.unsplash.com/photo-1592194996308-7e3cfb1d8c68?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDF8fGNhdHN8ZW58MHx8fHwxNjY4NDQ4MjM2&ixlib=rb-1.2.1&q=80&w=400',
+    'https://images.unsplash.com/photo-1604503467506-2839287a0b36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDR8fGNhdHN8ZW58MHx8fHwxNjY4NDQ4MjM2&ixlib=rb-1.2.1&q=80&w=400',
+    'https://images.unsplash.com/photo-1574158622682-e40e69881006?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDl8fGNhdHN8ZW58MHx8fHwxNjY4NDQ4MjM2&ixlib=rb-1.2.1&q=80&w=400',
+    'https://images.unsplash.com/photo-1560807707-8cc77767d783?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDF8fGNhdHN8ZW58MHx8fHwxNjY4NDQ4MjM2&ixlib=rb-1.2.1&q=80&w=400',
+    'https://images.unsplash.com/photo-1555685812-6e6c031bc028?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDN8fGNhdHN8ZW58MHx8fHwxNjY4NDQ4MjM2&ixlib=rb-1.2.1&q=80&w=400',
+  ]
+
+  const [dummyImages, setDummyImages] = useState<string[]>(catImages)
 
   const location = useLocation()
   const { storeIdParam } = useParams()
 
   useEffect(() => {
-    //state 아이콘, 상세 정보
-    if (location.state) {
-      const { storeIcon } = location?.state
-      const { storeInfoState } = location?.state
-
-      if (storeInfoState) {
-        setStoreInfo(storeInfoState)
-      }
-      if (storeIcon) {
-        setCategoryIcon(storeIcon)
-        // setCategoryIcon(getCategoryIcon(storeIcon))
-      }
-    } else {
-      if (storeIdParam) {
-        setStoreId(storeIdParam)
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    if (storeId) {
+    // console.log(JSON.stringify('paramId----' + paramId))
+    // console.log(JSON.stringify('nickName----' + nickName))
+    if (paramId && nickName) {
       fetchData(
-        `https://api.portnumber.site/store?storeId=${storeId}`,
+        `https://api.portnumber.site/admin/popup/api/${nickName}/${paramId}`,
         'GET',
         null,
-        null,
+        null
       )
-      //dummy data stuff
-      // const storeDetailData = findStoreDetailById(parseInt(storeId))
-      // setStoreInfo(storeDetailData)
-      // setCategoryIcon(getCategoryIcon(storeDetailData.category))
     }
-  }, [storeId])
+  }, []) //storeId
 
   useEffect(() => {
     if (storeDetail) {
-      setStoreInfo(storeDetail)
-      setCategoryIcon(getCategoryIcon(storeDetail.category))
+      console.log('storeDetail-' + JSON.stringify(storeDetail))
+      setStoreInfo(storeDetail.data)
     }
   }, [storeDetail])
 
-  useEffect(() => {
-    if (categoryIcon) {
-      console.log(categoryIcon)
-    }
-  }, [categoryIcon])
-
   //주소 복사하기
-  const copyAddress = (address, storeId, storeName) => {
-    ReactGA.event({
-      name: storeName,
-      id: storeId,
-      page: 'Store',
-      category: 'CopyAddress',
-      action: 'Click',
-      label: 'copy address click',
-    })
+  const copyAddress = (address: string, storeId: number, storeName: string) => {
+    // ReactGA.event({
+    //   name: storeName,
+    //   id: storeId,
+    //   page: 'Store',
+    //   category: 'CopyAddress',
+    //   action: 'Click',
+    //   label: 'copy address click',
+    // })
     copyToClipboard(address)
   }
 
-  const redirectUrl = (urlLink) => {
-    ReactGA.event({
-      name: urlLink,
-      id: storeId,
-      page: 'Store',
-      category: 'AddressMapUrlRedirect',
-      action: 'Click',
-      label: '지도로 길찾기',
-    })
+  const redirectUrl = (urlLink: string) => {
+    // ReactGA.event({
+    //   name: urlLink,
+    //   id: storeId,
+    //   page: 'Store',
+    //   category: 'AddressMapUrlRedirect',
+    //   action: 'Click',
+    //   label: '지도로 길찾기',
+    // })
     window.location.href = urlLink
   }
 
@@ -148,45 +154,40 @@ function Store() {
       {storeInfo && (
         <Container>
           <Content>
-            {/* <IconContainer>
-              <StyledPrevIcon
-                size="2em"
-                color="white"
-                border="black"
-                onClick={() => window.history.back()}
-              />
-              <BackBtn type="button" onClick={() => navigate(-1)}>
-                <img src={BakeryIcon} alt="" />
-              </BackBtn>
-            </IconContainer> */}
             <CarouselRow>
               <ControlledCarousel
-                imageList={storeInfo.images}
+                imageList={dummyImages} //imageList={storeInfo.images}
                 storeInfo={storeInfo}
-                storeId={storeInfo.id}
+                storeId={storeInfo.popupId}
               />
             </CarouselRow>
-            <InfoBox borderline={true}>
+            <InfoBox>
               <div className="infoRow">
                 <IconImg src={DateIcon} />
-                <p>{storeInfo.dates}</p>
+                {storeInfo.startDate}~{storeInfo.endDate}
               </div>
               <div className="infoRow" style={{ marginBottom: '20px' }}>
                 <IconImg src={TimeIcon} />
-                <p>{storeInfo.time}</p>
+                time
               </div>
-              <pre className="descriptionBox">{storeInfo.description}</pre>
+              <pre className="descriptionBox">
+                {storeInfo.detailDescription}
+              </pre>
             </InfoBox>
             <InfoBox>
               <div className="infoRow">
                 <IconImg src={PinIcon} />
-                <p> {storeInfo.address + storeInfo.address_detail}</p>
+                {storeInfo.address.address + storeInfo.address.addressDetail}
                 <IconImg
                   src={CopyIcon}
                   onClick={() =>
                     copyAddress(
-                      `${storeInfo.address + storeInfo.address_detail}`,
-                      `${storeInfo.name}`,
+                      `${
+                        storeInfo.address.address +
+                        storeInfo.address.addressDetail
+                      }`,
+                      storeInfo.popupId,
+                      `${storeInfo.name}`
                     )
                   }
                 />
@@ -200,16 +201,35 @@ function Store() {
                 </StyledMapLink>
               </div>
             </InfoBox>
-
-            {categoryIcon && (
-              <MapRow className="pb-4">
-                <EventMap
-                  longitude={storeInfo.longitude}
-                  latitude={storeInfo.latitude}
-                  categoryIcon={categoryIcon}
+            <MapRow className="pb-4">
+              <Map
+                center={{
+                  lat: 37.54699,
+                  lng: 127.09598,
+                }}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                }}
+                level={4}
+              >
+                <MapMarker
+                  position={{
+                    lat: 37.54699,
+                    lng: 127.09598,
+                    // lat: store.point?.latitude,
+                    // lng: store.point?.longitude,
+                  }}
+                  image={{
+                    src: ICON_CHINESE_WHT, //'ICON_'+ store.category
+                    size: {
+                      width: 24,
+                      height: 24,
+                    },
+                  }}
                 />
-              </MapRow>
-            )}
+              </Map>
+            </MapRow>
           </Content>
         </Container>
       )}
@@ -218,7 +238,12 @@ function Store() {
 }
 
 export default Store
-
+const RelatedPopUpImg = styled(Col)`
+  colspan: 4;
+`
+const RelatedPopUpContainer = styled(Row)`
+  width: 100%;
+`
 const CarouselRow = styled(Row)`
   display: flex;
   justify-content: center;
@@ -232,11 +257,6 @@ const InfoBox = styled.div`
   font-size: 14px;
   width: 100%;
   padding: 20px 24px;
-  ${(props) =>
-    props.borderline &&
-    `
-    border-bottom: 1px solid #dbdbdb;
-  `}
 
   .infoRow {
     display: flex;
