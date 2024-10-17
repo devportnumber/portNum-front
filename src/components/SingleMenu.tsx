@@ -64,7 +64,7 @@ const LinkButton = styled(Row)`
   background: #ffffff;
   transition: background 0.3s ease;
   &:hover {
-    background: #0971f8;
+    // background: #0971f8;
     border: 1px solid #0971f8;
     color: #ffffff;
   }
