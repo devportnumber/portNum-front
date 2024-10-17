@@ -116,7 +116,7 @@ const Home: React.FC = () => {
   // Fetch All Stores Info API with nickname
   useEffect(() => {
     ReactGA.initialize('G-P4SP6NH4KM')
-    console.log('HOME localStorage nickname-' + nickName)
+    // console.log('HOME localStorage nickname-' + nickName)
     if (nickName !== '')
       fetchData(
         `https://api.portnumber.site/admin/popup/api/${nickName}`,
