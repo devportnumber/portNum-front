@@ -65,8 +65,8 @@ const LinkButton = styled(Row)`
   transition: background 0.3s ease;
   &:hover {
     // background: #0971f8;
-    border: 1px solid #0971f8;
-    color: #ffffff;
+    // border: 1px solid #0971f8;
+    // color: #ffffff;
   }
 `
 const LogoImg = styled.img`
