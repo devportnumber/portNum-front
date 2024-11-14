@@ -199,7 +199,7 @@ const Home: React.FC = () => {
             level={4}
           >
             {storeList?.map((store, index) => (
-              <>
+              <div key={index}>
                 <MapMarker
                   position={{
                     lat: 37.54699,
@@ -234,7 +234,7 @@ const Home: React.FC = () => {
                     구의야구공원
                   </div>
                 </CustomOverlayMap>
-              </>
+              </div>
             ))}
           </Map>
         </Content>

@@ -104,7 +104,8 @@ function Store() {
         null,
       )
     }
-  }, [fetchData, nickName, paramId]) //storeId
+  }, []) //storeId
+  // fetchData, nickName, paramId
 
   useEffect(() => {
     if (storeDetail) {
