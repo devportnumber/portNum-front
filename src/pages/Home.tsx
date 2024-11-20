@@ -91,13 +91,18 @@ const Home: React.FC = () => {
   const [storeInfo, setStoreInfo] = useState<StoreInfo | undefined>(undefined)
   const [storeId, setStoreId] = useState<string>('')
   const [nickName, setNickName] = useState<string>(
-    localStorage.getItem('nickname') ?? '',
+    localStorage.getItem('path') ?? '',
   )
   const [storeIcon, setStoreIcon] = useState<string>('')
 
   // Modal sharing
   const queryParameters = new URLSearchParams(window.location.search)
   const storeIdParam = queryParameters.get('id')
+
+
+// console.log("popup-"+JSON.stringify(localStorage.getItem('path')))
+
+
 
   //Modal Link Show
   useEffect(() => {

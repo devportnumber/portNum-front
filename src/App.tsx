@@ -40,6 +40,8 @@ function App() {
     } else {
       setPathName(totalPathName)
       localStorage.setItem('path', totalPathName)
+      // console.log('pathName with id=' + totalPathName)
+
     }
     // alert(`${parts[0]}`)
 
