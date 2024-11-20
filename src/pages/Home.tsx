@@ -202,13 +202,15 @@ const Home: React.FC = () => {
               <div key={index}>
                 <MapMarker
                   position={{
-                    lat: 37.54699,
-                    lng: 127.09598,
-                    // lat: store.point?.latitude,
-                    // lng: store.point?.longitude,
+                  //   lat: 37.54699,
+                  //   lng: 127.09598,
+                    lat: store.point?.latitude,
+                    lng: store.point?.longitude,
                   }}
                   image={{
-                    src: ICON_CHINESE_WHT, //'ICON_'+ store.category
+                    src:
+                    //  ICON_CHINESE_WHT, 
+                    'ICON_'+ store.category,
                     size: {
                       width: 24,
                       height: 24,
@@ -217,10 +219,10 @@ const Home: React.FC = () => {
                 />
                 <CustomOverlayMap
                   position={{
-                    lat: 37.54699,
-                    lng: 127.09598,
-                    // lat: store.point?.latitude,
-                    // lng: store.point?.longitude,
+                    // lat: 37.54699,
+                    // lng: 127.09598,
+                    lat: store.point?.latitude,
+                    lng: store.point?.longitude,
                   }}
                   yAnchor={1}
                 >

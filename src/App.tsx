@@ -28,6 +28,7 @@ function App() {
     const totalPathName = window.location.pathname.slice(1) // Remove leading slash
 
     const parts = totalPathName.split('/')
+    // alert(`totalPathName-`+window.location.pathname)
 
     if (parts.length > 1) {
       setPathName(parts[0])
@@ -40,9 +41,11 @@ function App() {
       setPathName(totalPathName)
       localStorage.setItem('path', totalPathName)
     }
+    // alert(`${parts[0]}`)
 
     fetchNickname(
-      `https://api.portnumber.site/admin/nickName/${parts[0]}`,
+      // `https://api.portnumber.site/admin/nickName/${parts[0]}`,
+      `https://api.portnumber.site/admin/popup/api/${parts[0]}`,
       'GET',
       null,
       null
@@ -51,13 +54,19 @@ function App() {
 
   useEffect(() => {
     if (fetchNicknameData) {
-      if (fetchNicknameData.code === 0) {
-        localStorage.setItem('nickname', fetchNicknameData.data)
-        // console.log('fetchNicknameData.data LOCAL STORAGE-' + fetchNicknameData.data)
-      } else {
-        setIsValidPath(false)
+    if (fetchNicknameData.code!==0) {
+      setIsValidPath(false)
+      // alert("VALID ID")
+  // console.log("fetchNicknameData---"+JSON.stringify(fetchNicknameData))
+      // if (fetchNicknameData.code === 0) {
+      //   localStorage.setItem('nickname', fetchNicknameData.data)
+      //   // console.log('fetchNicknameData.data LOCAL STORAGE-' + fetchNicknameData.data)
+    
       }
-    }
+      else {
+        setIsValidPath(true)
+            }
+          }
   }, [fetchNicknameData])
 
   return (
