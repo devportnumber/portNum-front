@@ -41,6 +41,24 @@ import { useAxios } from '../hooks/useAxios'
 // Styles
 import styled from 'styled-components'
 
+
+const iconMap: Record<string, string> = {
+  CHINESE_BLK,
+  JAPANESE_BLK,
+  KOREAN_BLK,
+  WESTERN_BLK,
+  CHINESE_WHT,
+  JAPANESE_WHT,
+  KOREAN_WHT,
+  RESTAURANT,
+};
+
+const defaultIcon = RESTAURANT; 
+
+export const getIconForCategory = (category: keyof typeof iconMap): string  => {
+  return iconMap[category] || defaultIcon; // returns empty string if no match
+};
+
 // Interface: store information
 interface StoreAddress {
   address: string
@@ -61,7 +79,8 @@ interface Points {
 export interface StoreInfo {
   popupId: number
   name: string
-  category: string
+  // category: string
+  category: keyof typeof iconMap
   startDate: string
   endDate: string
   stat: string
@@ -225,12 +244,18 @@ const Home: React.FC = () => {
                     lat: store.point?.latitude,
                     lng: store.point?.longitude,
                   }}
+                  // image={{
+                  //   // JAPANESE_WHT,
+                  //   // src: store.category,
+                  //   src: getIconForCategory(store.category),
+                  //   size: {
+                  //     width: 24,
+                  //     height: 24,
+                  //   },
+                  // }}
+
                   image={{
-                    src:
-                    //  ICON_CHINESE_WHT, 
-                    // 'ICON_'+ '',
-                    // JAPANESE_WHT,
-                    store.category,
+                    src: getIconForCategory(store.category), 
                     size: {
                       width: 24,
                       height: 24,

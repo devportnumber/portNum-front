@@ -21,6 +21,7 @@ import ShareIcon from '../assets/icons/modal/icon_blu_18_share.svg'
 
 function ControlledCarousel({ imageList, storeInfo, storeId }) {
   // console.log('imageList-' + JSON.stringify(imageList))
+  console.log('storeInfo-' + JSON.stringify(storeInfo))
 
   const navigate = useNavigate()
 

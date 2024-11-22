@@ -15,18 +15,34 @@ import ShareIcon from '../assets/icons/modal/icon_blu_18_share.svg'
 import DateIcon from '../assets/icons/modal/icon_gry_18_date.svg'
 import TimeIcon from '../assets/icons/modal/icon_gry_18_time.svg'
 // Category Icons
-import ICON_CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
-import ICON_JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
-import ICON_KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
-import ICON_WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
-import ICON_CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
-import ICON_JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
-import ICON_KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
-import ICON_WESTERN_WHT from '../assets/icons/maps/point_22_wst_wht.svg'
-
+import CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
+import JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
+import KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
+import WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
+import CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
+import JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
+import KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
+import RESTAURANT from '../assets/icons/maps_archive/point_22_restaurant.svg'
 import styled from 'styled-components'
 
 import { StoreInfo } from '../pages/Home'
+
+
+const iconMap: Record<string, string> = {
+  CHINESE_BLK,
+  JAPANESE_BLK,
+  KOREAN_BLK,
+  WESTERN_BLK,
+  CHINESE_WHT,
+  JAPANESE_WHT,
+  KOREAN_WHT,
+  RESTAURANT,
+};
+const defaultIcon = RESTAURANT;
+const getIconForCategory = (category: keyof typeof iconMap): string  => {
+  return iconMap[category] || defaultIcon; // returns empty string if no match
+};
+
 
 interface StoreModalProps {
   show: boolean
@@ -76,7 +92,7 @@ const StoreModal: React.FC<StoreModalProps> = ({
     }
 `
 
-  const handleClick = (storeId: number, storeName: string) => {
+  const handleClick = (storeId: number, storeName: string, storeDetailInfo:object) => {
     // ReactGA.event({
     //   name: storeName,
     //   id: storeId,
@@ -85,9 +101,10 @@ const StoreModal: React.FC<StoreModalProps> = ({
     //   action: 'Click',
     //   label: 'modal click',
     // })
+    // alert(JSON.stringify(storeDetailInfo))
     startTransition(() => {
       navigate(`/${localStorage.getItem('path')}/${storeId}`, {
-        state: { storeIcon: storeIcon, storeInfoState: storeInfo },
+        state: { storeIcon: storeIcon, storeInfoState: storeDetailInfo },
       })
     })
   }
@@ -130,12 +147,12 @@ const StoreModal: React.FC<StoreModalProps> = ({
 
         <Modal show={show} onHide={handleClose}>
           <Modal.Body
-            onClick={() => handleClick(storeInfo.popupId, storeInfo.name)}
+            onClick={() => handleClick(storeInfo.popupId, storeInfo.name, storeInfo)}
           >
             {/************** First Row *************/}
             <Row className="mb-2 d-flex align-items-center">
               <Col xs={1} className="pe-0 d-flex align-items-center">
-                <TopRowIcon src={ICON_CHINESE_BLK} />
+                <TopRowIcon src={getIconForCategory(storeIcon)} />
                 {/* ICON_CHINESE_BLK or 'ICON_'+ storeInfo.category */}
               </Col>
               <Col className="d-flex align-items-center">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom';
 
 // Google Analytics
 // import ReactGA from 'react-ga4'
@@ -38,16 +38,16 @@ import copyToClipboard from '../utils/copyToClipboard'
 // import findStoreDetailById from '../utils/findStoreDetail'
 
 // Icons
-// import ICON_CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
-// import ICON_JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
-// import ICON_KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
-// import ICON_WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
-import ICON_CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
-// import ICON_JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
-// import ICON_KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
-// import ICON_WESTERN_WHT from '../assets/icons/maps/point_22_wst_wht.svg'
-
+import CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
+import JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
+import KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
+import WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
+import CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
+import JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
+import KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
+import RESTAURANT from '../assets/icons/maps_archive/point_22_restaurant.svg'
 import { StoreInfo } from './Home'
+import { getIconForCategory } from './Home'
 
 const imageSlideStyle = `
 div.scroll-container {
@@ -74,11 +74,22 @@ function Store() {
   //needed data
   const [storeInfo, setStoreInfo] = useState<StoreInfo>()
   const [nickName, setNickName] = useState<string>(
-    localStorage.getItem('nickname') ?? '',
+    localStorage.getItem('path') ?? '',
   )
   const [paramId, setParamId] = useState<string>(
     localStorage.getItem('param') ?? '',
   )
+
+  const location = useLocation();
+  
+  interface StorePageState {
+    storeIcon: string;   
+    storeInfoState: object;
+  }
+
+  // Extract the state passed through navigate
+  const { storeIcon, storeInfoState }: StorePageState = location.state || {}; 
+// console.log("storeInfoState---------"+JSON.stringify(storeInfoState))
   //dummy data
   const catImages = [
     'https://images.unsplash.com/photo-1592194996308-7e3cfb1d8c68?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDF8fGNhdHN8ZW58MHx8fHwxNjY4NDQ4MjM2&ixlib=rb-1.2.1&q=80&w=400',
@@ -94,11 +105,15 @@ function Store() {
   // const { storeIdParam } = useParams()
 
   useEffect(() => {
+    const totalPathName = window.location.pathname.slice(1) // Remove leading slash
+
+    const parts = totalPathName.split('/')
+
     // console.log(JSON.stringify('paramId----' + paramId))
     // console.log(JSON.stringify('nickName----' + nickName))
-    if (paramId && nickName) {
+    if (parts[1] && nickName) {
       fetchData(
-        `https://api.portnumber.site/admin/popup/api/${nickName}/${paramId}`,
+        `https://api.portnumber.site/admin/popup/api/${nickName}/${parts[1]}`,
         'GET',
         null,
         null,
@@ -109,7 +124,7 @@ function Store() {
 
   useEffect(() => {
     if (storeDetail) {
-      console.log('storeDetail-' + JSON.stringify(storeDetail))
+      // console.log('storeDetail-' + JSON.stringify(storeDetail))
       setStoreInfo(storeDetail.data)
     }
   }, [storeDetail])
@@ -197,8 +212,8 @@ function Store() {
             <MapRow className="pb-4">
               <Map
                 center={{
-                  lat: 37.54699,
-                  lng: 127.09598,
+                  lat: storeInfo.point?.latitude,
+                  lng: storeInfo.point?.longitude,
                 }}
                 style={{
                   width: '100%',
@@ -208,13 +223,11 @@ function Store() {
               >
                 <MapMarker
                   position={{
-                    lat: 37.54699,
-                    lng: 127.09598,
-                    // lat: store.point?.latitude,
-                    // lng: store.point?.longitude,
+                    lat: storeInfo.point?.latitude,
+                    lng: storeInfo.point?.longitude,
                   }}
                   image={{
-                    src: ICON_CHINESE_WHT, //'ICON_'+ store.category
+                    src: getIconForCategory(storeInfo.category), //'ICON_'+ store.category
                     size: {
                       width: 24,
                       height: 24,

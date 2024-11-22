@@ -36,7 +36,7 @@ function App() {
       localStorage.setItem('path', parts[0])
       // console.log('pathName with id=' + parts[0])
       // console.log('param with id=' + parts[1])
-      localStorage.setItem('param', parts[1])
+      // localStorage.setItem('param', parts[1])
     } else {
       setPathName(totalPathName)
       localStorage.setItem('path', totalPathName)
