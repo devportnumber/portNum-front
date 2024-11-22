@@ -15,11 +15,18 @@ import { AiOutlineArrowRight } from 'react-icons/ai'
 // import ICON_JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
 // import ICON_KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
 // import ICON_WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
-import ICON_CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
+// import ICON_CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
 // import ICON_JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
 // import ICON_KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
-// import ICON_WESTERN_WHT from '../assets/icons/maps/point_22_wst_wht.svg'
-
+// import ICON_RESTAURANT from '../assets/icons/maps_archive/point_22_restaurant.svg'
+import CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
+import JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
+import KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
+import WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
+import CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
+import JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
+import KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
+import RESTAURANT from '../assets/icons/maps_archive/point_22_restaurant.svg'
 // Components
 import StoreModal from '../components/Modal'
 import HomeMap from '../components/HomeMap'
@@ -144,8 +151,8 @@ const Home: React.FC = () => {
     if (storeInfoData) {
       // console.log(JSON.stringify(storeInfoData.data))
       setStoreInfo(storeInfoData.data)
-      setStoreIcon('ICON_' + 'CHINESE_BLK')
-      // setStoreIcon('ICON_' + storeInfoData.category)
+      // setStoreIcon('CHINESE_BLK')
+      setStoreIcon(storeInfoData.category)
       setShow(true)
     }
   }, [storeInfoData])
@@ -194,28 +201,36 @@ const Home: React.FC = () => {
           <SingleMenu />
           <Map
             center={{
-              lat: 37.54699,
-              lng: 127.09598,
+              // lat: 37.54699,
+              // lng: 127.09598,
+              lat: 127.045,
+              lng: 37.5221,
             }}
             style={{
               width: '100%',
               height: '100%',
             }}
-            level={4}
+            level={8}
           >
             {storeList?.map((store, index) => (
               <div key={index}>
                 <MapMarker
                   position={{
-                  //   lat: 37.54699,
-                  //   lng: 127.09598,
+                    // // OG
+                    // lat: 37.54699,
+                    // lng: 127.09598,
+                    // longitude":37.5221,"latitude":127.045
+                    // lat: 127.045,
+                    // lng: 37.5221,
                     lat: store.point?.latitude,
                     lng: store.point?.longitude,
                   }}
                   image={{
                     src:
                     //  ICON_CHINESE_WHT, 
-                    'ICON_'+ store.category,
+                    // 'ICON_'+ '',
+                    // JAPANESE_WHT,
+                    store.category,
                     size: {
                       width: 24,
                       height: 24,
@@ -238,7 +253,8 @@ const Home: React.FC = () => {
                       handleShow(store.popupId)
                     }}
                   >
-                    구의야구공원
+                    {/* 구의야구공원 */}
+                    {store.name}
                   </div>
                 </CustomOverlayMap>
               </div>
