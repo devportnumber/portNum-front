@@ -21,7 +21,10 @@ import ShareIcon from '../assets/icons/modal/icon_blu_18_share.svg'
 
 function ControlledCarousel({ imageList, storeInfo, storeId }) {
   // console.log('imageList-' + JSON.stringify(imageList))
-  console.log('storeInfo-' + JSON.stringify(storeInfo))
+  // console.log('storeInfo-' + JSON.stringify(storeInfo))
+
+const images = Array.isArray(imageList) ? imageList : [imageList];
+
 
   const navigate = useNavigate()
 
@@ -75,13 +78,19 @@ function ControlledCarousel({ imageList, storeInfo, storeId }) {
         nextIcon=""
         prevIcon=""
       >
-        {imageList.map((image, index) => (
+        {/* {imageList.map((image, index) => (
           <StyledCarouselItem key={index}>
-            {/* <ImageWrapper> */}
             <StyledImage>
               <img src={image.imgUrl} />
             </StyledImage>
-            {/* </ImageWrapper> */}
+          </StyledCarouselItem>
+        ))} */}
+
+        {images.map((image, index) => (
+          <StyledCarouselItem key={index}>
+            <StyledImage>
+              <img src={image} alt={`image-${index}`} />
+            </StyledImage>
           </StyledCarouselItem>
         ))}
       </StyledCarousel>

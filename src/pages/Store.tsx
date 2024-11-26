@@ -38,14 +38,15 @@ import copyToClipboard from '../utils/copyToClipboard'
 // import findStoreDetailById from '../utils/findStoreDetail'
 
 // Icons
-import CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
-import JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
-import KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
-import WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
-import CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
-import JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
-import KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
-import RESTAURANT from '../assets/icons/maps_archive/point_22_restaurant.svg'
+import CHINESE_BLK from '../assets/icons/maps_bw/point_22_chn_blk.svg'
+import JAPANESE_BLK from '../assets/icons/maps_bw/point_22_jpn_blk.svg'
+import KOREAN_BLK from '../assets/icons/maps_bw/point_22_kor_blk.svg'
+import WESTERN_BLK from '../assets/icons/maps_bw/point_22_wst_blk.svg'
+import CHINESE_WHT from '../assets/icons/maps_bw/point_22_chn_wht.svg'
+import JAPANESE_WHT from '../assets/icons/maps_bw/point_22_jpn_wht.svg'
+import KOREAN_WHT from '../assets/icons/maps_bw/point_22_kor_wht.svg'
+import RESTAURANT from '../assets/icons/maps_basic/point_22_restaurant.svg'
+
 import { StoreInfo } from './Home'
 import { getIconForCategory } from './Home'
 
@@ -164,7 +165,7 @@ function Store() {
           <Content>
             <CarouselRow>
               <ControlledCarousel
-                imageList={dummyImages} //imageList={storeInfo.images}
+                imageList={storeInfo.representImgUrl} 
                 storeInfo={storeInfo}
                 storeId={storeInfo.popupId}
               />
@@ -174,10 +175,11 @@ function Store() {
                 <IconImg src={DateIcon} />
                 {storeInfo.startDate}~{storeInfo.endDate}
               </div>
-              <div className="infoRow" style={{ marginBottom: '20px' }}>
+              {/* TEMPORARY: waiting for data */}
+              {/* <div className="infoRow" style={{ marginBottom: '20px' }}>
                 <IconImg src={TimeIcon} />
                 time
-              </div>
+              </div> */}
               <pre className="descriptionBox">
                 {storeInfo.detailDescription}
               </pre>
@@ -185,7 +187,7 @@ function Store() {
             <InfoBox>
               <div className="infoRow">
                 <IconImg src={PinIcon} />
-                {storeInfo.address.address + storeInfo.address.addressDetail}
+                {storeInfo.address.address + " " + storeInfo.address.addressDetail}
                 <IconImg
                   src={CopyIcon}
                   onClick={() =>
@@ -200,14 +202,15 @@ function Store() {
                   }
                 />
               </div>
-              <div className="infoRow" style={{ marginBottom: '0px' }}>
+              {/* TEMPORARY: waiting for data */}
+              {/* <div className="infoRow" style={{ marginBottom: '0px' }}>
                 <IconImg src={MapIcon} />
                 <StyledMapLink
                   onClick={() => redirectUrl(`${storeInfo.mapUrl}`)}
                 >
                   지도로 길찾기
                 </StyledMapLink>
-              </div>
+              </div> */}
             </InfoBox>
             <MapRow className="pb-4">
               <Map

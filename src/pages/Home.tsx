@@ -11,25 +11,18 @@ import { Row, Col } from 'react-bootstrap'
 import { AiOutlineArrowRight } from 'react-icons/ai'
 
 // Icons
-// import ICON_CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
-// import ICON_JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
-// import ICON_KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
-// import ICON_WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
-// import ICON_CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
-// import ICON_JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
-// import ICON_KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
-// import ICON_RESTAURANT from '../assets/icons/maps_archive/point_22_restaurant.svg'
-import CHINESE_BLK from '../assets/icons/maps/point_22_chn_blk.svg'
-import JAPANESE_BLK from '../assets/icons/maps/point_22_jpn_blk.svg'
-import KOREAN_BLK from '../assets/icons/maps/point_22_kor_blk.svg'
-import WESTERN_BLK from '../assets/icons/maps/point_22_wst_blk.svg'
-import CHINESE_WHT from '../assets/icons/maps/point_22_chn_wht.svg'
-import JAPANESE_WHT from '../assets/icons/maps/point_22_jpn_wht.svg'
-import KOREAN_WHT from '../assets/icons/maps/point_22_kor_wht.svg'
-import RESTAURANT from '../assets/icons/maps_archive/point_22_restaurant.svg'
+import CHINESE_BLK from '../assets/icons/maps_bw/point_22_chn_blk.svg'
+import JAPANESE_BLK from '../assets/icons/maps_bw/point_22_jpn_blk.svg'
+import KOREAN_BLK from '../assets/icons/maps_bw/point_22_kor_blk.svg'
+import WESTERN_BLK from '../assets/icons/maps_bw/point_22_wst_blk.svg'
+import CHINESE_WHT from '../assets/icons/maps_bw/point_22_chn_wht.svg'
+import JAPANESE_WHT from '../assets/icons/maps_bw/point_22_jpn_wht.svg'
+import KOREAN_WHT from '../assets/icons/maps_bw/point_22_kor_wht.svg'
+import RESTAURANT from '../assets/icons/maps_basic/point_22_restaurant.svg'
+
 // Components
 import StoreModal from '../components/Modal'
-import HomeMap from '../components/HomeMap'
+// import HomeMap from '../components/HomeMap'
 import SingleMenu from '../components/SingleMenu'
 
 // Hooks
@@ -218,41 +211,28 @@ const Home: React.FC = () => {
       <Container>
         <Content>
           <SingleMenu />
-          <Map
-            center={{
-              // lat: 37.54699,
-              // lng: 127.09598,
-              lat: 127.045,
-              lng: 37.5221,
-            }}
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-            level={8}
-          >
+          <Map // 지도를 표시할 Container
+      id="map"
+      center={{
+        lat: 37.5221,
+        lng:  127.045,
+      }}
+      style={{
+        width: '100%',
+        height: '100%',
+      }}
+      level={7}
+      >
+
             {storeList?.map((store, index) => (
               <div key={index}>
                 <MapMarker
                   position={{
-                    // // OG
-                    // lat: 37.54699,
-                    // lng: 127.09598,
-                    // longitude":37.5221,"latitude":127.045
-                    // lat: 127.045,
-                    // lng: 37.5221,
                     lat: store.point?.latitude,
-                    lng: store.point?.longitude,
+                    lng: store.point?.longitude ,
+                    // lat: store.point?.longitude,
+                    // lng: store.point?.latitude,
                   }}
-                  // image={{
-                  //   // JAPANESE_WHT,
-                  //   // src: store.category,
-                  //   src: getIconForCategory(store.category),
-                  //   size: {
-                  //     width: 24,
-                  //     height: 24,
-                  //   },
-                  // }}
 
                   image={{
                     src: getIconForCategory(store.category), 
@@ -264,27 +244,25 @@ const Home: React.FC = () => {
                 />
                 <CustomOverlayMap
                   position={{
-                    // lat: 37.54699,
-                    // lng: 127.09598,
                     lat: store.point?.latitude,
                     lng: store.point?.longitude,
+                    // lat: store.point?.longitude,
+                    // lng: store.point?.latitude,
                   }}
                   yAnchor={1}
                 >
                   <div
                     className="customoverlay bubble"
                     onClick={() => {
-                      // handleShow(store.popupId, store.name, store.category)
                       handleShow(store.popupId)
                     }}
                   >
-                    {/* 구의야구공원 */}
                     {store.name}
                   </div>
                 </CustomOverlayMap>
               </div>
             ))}
-          </Map>
+          </Map> 
         </Content>
       </Container>
       <StoreModal
